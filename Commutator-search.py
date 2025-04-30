@@ -1,4 +1,6 @@
 import numpy as np
+from numpy.polynomial.polynomial import Polynomial
+from scipy.odr import polynomial
 
 class Monomial:
     def __init__(self, n,coeff: float,powers:list):
@@ -23,11 +25,13 @@ class Monomial:
 
 
 class Polynomial:
-    def __init__(self, coefficients):
+    def __init__(self, coefficients,id):
         self.coefficients = coefficients
 
+        self.id = id
+
     def copy(self):
-        return Polynomial(self.coefficients.copy())
+        return Polynomial(self.coefficients.copy(),self.id)
 
 class MonomialCommutator:
 
@@ -49,7 +53,7 @@ class MonomialCommutator:
         N = abs(powers1[0] - powers2[0]) + 1
         M = abs(powers1[1] - powers2[1]) + 1
         coeffients = np.ones((N,M))
-        return Polynomial(coeffients),Polynomial(coeffients)
+        return Polynomial(coeffients,0),Polynomial(coeffients,1)
 
     def x_derivative(self,polynomial: Polynomial) -> Polynomial:
 
@@ -58,7 +62,7 @@ class MonomialCommutator:
         for i in range(1,coefficients.shape[0]):
             derivative_x[i-1] = coefficients[i] * i
 
-        return Polynomial(derivative_x)
+        return Polynomial(derivative_x,polynomial.id)
 
     def y_derivative(self,polynomial:Polynomial) -> Polynomial:
 
@@ -67,7 +71,7 @@ class MonomialCommutator:
         for i in range(1,coefficients.shape[1]):
             derivative_y[:,i-1] = coefficients[:,i] * i
 
-        return Polynomial(derivative_y)
+        return Polynomial(derivative_y,polynomial.id)
 
     def monomial_derivative(self,monomial:Monomial,variable_n: int):
         if monomial.getPowers()[variable_n-1] == 0:
@@ -82,63 +86,65 @@ class MonomialCommutator:
     def create_BIG_matrix(self, polynomials: list[Polynomial],
                           monomial_derivatives: list[Monomial],
                           polynomial_derivatives: list[Polynomial],
-                          ) -> np.ndarray:
-        # TODO: rewrite
-        P = polynomials[0].coefficients
-        Q = polynomials[1].coefficients
+                          ):
 
-        # N = max(self.monomials[0].getPowers()[0], self.monomials[1].getPowers()[0])
-        # M = max(self.monomials[0].getPowers()[1], self.monomials[1].getPowers()[1])
+        N = max(self.monomials[0].getPowers()[0], self.monomials[1].getPowers()[0])
+        M = max(self.monomials[0].getPowers()[1], self.monomials[1].getPowers()[1])
 
-        # BIG_Matrix = np.zeros(shape=(4, P.shape[0] + N, P.shape[1] + M))
+        start_i = []
+        start_j = []
+        end_i = []
+        end_j = []
 
-        T_monom1 = P * monomial_derivatives[0].coeff
-        T_monom2 = Q * monomial_derivatives[1].coeff
+        BIG_Matrix = []
+        for i in range(len(polynomials)):
+            new_polynomial_coeff = np.zeros(shape=(polynomials[i].coefficients.shape[0] + N, polynomials[i].coefficients.shape[1] + M))
 
-        T_monom1 = Polynomial(T_monom1)
-        T_monom2 = Polynomial(T_monom2)
+            T_monom = polynomials[i].coefficients * monomial_derivatives[i].coeff
+            k1 = monomial_derivatives[i].powers[0]
+            m1 = monomial_derivatives[i].powers[1]
+            end11 = k1 + polynomials[i].coefficients.shape[0]
+            end12 = m1 + polynomials[i].coefficients.shape[1]
+
+            new_polynomial_coeff[k1:end11, m1:end12] = T_monom
+            new_poly = Polynomial(new_polynomial_coeff,polynomials[i].id)
+            BIG_Matrix.append(new_poly)
+
+            start_i.append(k1)
+            start_j.append(m1)
+            end_i.append(end11)
+            end_j.append(end12)
+
+        for i in range(len(polynomials)):
+            new_polynomial_coeff = np.zeros(shape=(polynomial_derivatives[i].coefficients.shape[0] + N, polynomial_derivatives[i].coefficients.shape[1] + M))
+
+            D_poly = self.monomials[i].coeff * polynomial_derivatives[i] * (-1)
+
+            D_poly = Polynomial(D_poly,polynomial_derivatives[i].id)
+
+            k3 = self.monomials[i].powers[0]
+            m3 = self.monomials[i].powers[1]
+            end31 = k3 + polynomial_derivatives[i].coefficients.shape[0]
+            end32 = m3 + polynomial_derivatives[i].coefficients.shape[1]
+
+            start_i.append(k3)
+            start_j.append(m3)
+            end_i.append(end31)
+            end_j.append(end32)
+
+            new_polynomial_coeff[k3:end31, m3:end32] = D_poly
+            new_poly = Polynomial(new_polynomial_coeff, polynomial_derivatives[i].id)
+            BIG_Matrix.append(new_poly)
 
 
-        k1 = monomial_derivatives[0].powers[0]
-        m1 = monomial_derivatives[0].powers[1]
-        end11= k1 + P.shape[0]
-        end12= m1 + P.shape[1]
+        K1 = min(start_i)
+        M1 = min(start_j)
 
-        # BIG_Matrix[0, k1:end11, m1:end12] = T_monom1
+        endK1 = max(end_i)
+        endM1 = max(end_j)
 
-        k2 = monomial_derivatives[1].powers[0]
-        m2 = monomial_derivatives[1].powers[1]
-        end21 = k2 + Q.shape[0]
-        end22 = m2 + Q.shape[1]
 
-        # BIG_Matrix[1, k2:end21, m2:end22] = T_monom2
-
-        D_P_1 = self.monomials[0].coeff * polynomial_derivatives[0] * (-1)
-        D_P_2 = self.monomials[1].coeff * polynomial_derivatives[1] * (-1)
-
-        D_P_1 = Polynomial(D_P_1)
-        D_P_2 = Polynomial(D_P_2)
-
-        k3 = self.monomials[0].powers[0]
-        m3 = self.monomials[0].powers[1]
-        end31 = k3 + polynomial_derivatives[0].coefficients.shape[0]
-        end32 = m3 + polynomial_derivatives[0].coefficients.shape[1]
-        # BIG_Matrix[2, k3:end31, m3:end32] = D_P_1*(-1)
-
-        k4 = self.monomials[1].powers[0]
-        m4 = self.monomials[1].powers[1]
-        end41 = k4 + polynomial_derivatives[1].coefficients.shape[0]
-        end42 = m4 + polynomial_derivatives[1].coefficients.shape[1]
-        # BIG_Matrix[3, k4:end41, m4:end42] = D_P_2*(-1)
-
-        K1 = min(k1, k2, k3, k4)
-        M1 = min(m1, m2, m3,m4)
-
-        endK1 = max(end11, end21, end31, end41)
-        endM1 = max(end12, end22, end32, end42)
-
-        BIG_Matrix = [T_monom1,T_monom2,D_P_1,D_P_2]
-        return BIG_Matrix,[K1,endK1,M1,endM1],[[k1,m1],[k2,m2],[k3,m3],[k4,m4]]
+        return BIG_Matrix,[K1,endK1,M1,endM1],[start_i,end_i,start_j,end_j]
 
     def create_SOLE(self,polyPowers: list,
                     boundaries1: list,
@@ -158,31 +164,7 @@ class MonomialCommutator:
         # TODO: rewrite
         row_n = 0
         for m in range(len(BIG_Matrices)):
-            BIG_MATRIX = BIG_Matrices[m]
-            shift = shifts[m]
-            boundary = boundaries[m]
-            for i in range(boundary[0],boundary[1]):
-                for j in range(boundary[2],boundary[3]):
-                    row = np.zeros((1,SOLE.shape[1]))
-                    for k in range(len(BIG_MATRIX)):
-                        a_ij = BIG_MATRIX[k,i,j]
-                        if k<2:
-                            ind_i = i -shift[k][0]
-                            ind_j = j -shift[k][1]
-                        else:
-                            ind_i = i - shift[k][0] + 1
-                            ind_j = j - shift[k][1] + 1
 
-
-
-                        position =  ind_i*polyPowers[1] + ind_j - 1
-                        try:
-                            row[0,position] += a_ij
-                        except IndexError:
-                            # print(k)
-                            pass
-                    SOLE[row_n,:] = row
-                    row_n += 1
 
 
 
@@ -218,10 +200,10 @@ class MonomialCommutator:
         print(shifts2)
         print(boundaries2)
         # print(BIG_Matrix2)
-        SOLE = self.create_SOLE([P.shape[0],P.shape[1]],boundaries1,boundaries2)
+        SOLE = self.create_SOLE([P.coefficients.shape[0],P.coefficients.shape[1]],boundaries1,boundaries2)
         print("SOLE shape:",SOLE.shape)
         SOLE = self.fill_SOLE([BIG_Matrix1,BIG_Matrix2],[shifts1,shifts2],
-                              [boundaries1,boundaries2],P.shape,SOLE)
+                              [boundaries1,boundaries2],P.coefficients.shape,SOLE)
         print(SOLE)
 
 def __str__(self):
