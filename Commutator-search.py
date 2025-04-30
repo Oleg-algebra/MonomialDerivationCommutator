@@ -25,13 +25,19 @@ class Monomial:
 
 
 class Polynomial:
-    def __init__(self, coefficients,id):
-        self.coefficients = coefficients
+    def __init__(self, coefficients: np.ndarray,id):
 
+        self.derivative_i_n = 0
+        self.derivative_j_n = 0
         self.id = id
+        self.coefficients = coefficients
 
     def copy(self):
         return Polynomial(self.coefficients.copy(),self.id)
+
+    def __str__(self):
+        return (f"Poly {self.id}, shape: {self.coefficients.shape}, der_i_n: {self.derivative_i_n}, der_j_n: {self.derivative_j_n}\n"
+                f" coeffs: {self.coefficients}\n")
 
 class MonomialCommutator:
 
@@ -50,8 +56,8 @@ class MonomialCommutator:
 
         powers1 = self.monomials[0].getPowers()
         powers2 = self.monomials[1].getPowers()
-        N = abs(powers1[0] - powers2[0]) + 1
-        M = abs(powers1[1] - powers2[1]) + 1
+        N = abs(powers1[0] - powers2[0]) + 5
+        M = abs(powers1[1] - powers2[1]) + 5
         coeffients = np.ones((N,M))
         return Polynomial(coeffients,0),Polynomial(coeffients,1)
 
@@ -61,8 +67,9 @@ class MonomialCommutator:
         derivative_x = np.zeros(coefficients.shape)
         for i in range(1,coefficients.shape[0]):
             derivative_x[i-1] = coefficients[i] * i
-
-        return Polynomial(derivative_x,polynomial.id)
+        poly_derivative = Polynomial(derivative_x,polynomial.id)
+        poly_derivative.derivative_i_n += 1
+        return poly_derivative
 
     def y_derivative(self,polynomial:Polynomial) -> Polynomial:
 
@@ -70,8 +77,10 @@ class MonomialCommutator:
         derivative_y = np.zeros(coefficients.shape)
         for i in range(1,coefficients.shape[1]):
             derivative_y[:,i-1] = coefficients[:,i] * i
+        poly_derivative = Polynomial(derivative_y,polynomial.id)
+        poly_derivative.derivative_j_n += 1
 
-        return Polynomial(derivative_y,polynomial.id)
+        return poly_derivative
 
     def monomial_derivative(self,monomial:Monomial,variable_n: int):
         if monomial.getPowers()[variable_n-1] == 0:
@@ -118,9 +127,9 @@ class MonomialCommutator:
         for i in range(len(polynomials)):
             new_polynomial_coeff = np.zeros(shape=(polynomial_derivatives[i].coefficients.shape[0] + N, polynomial_derivatives[i].coefficients.shape[1] + M))
 
-            D_poly = self.monomials[i].coeff * polynomial_derivatives[i] * (-1)
+            D_poly = self.monomials[i].coeff * polynomial_derivatives[i].coefficients * (-1)
 
-            D_poly = Polynomial(D_poly,polynomial_derivatives[i].id)
+            # D_poly = Polynomial(D_poly,polynomial_derivatives[i].id)
 
             k3 = self.monomials[i].powers[0]
             m3 = self.monomials[i].powers[1]
@@ -143,8 +152,9 @@ class MonomialCommutator:
         endK1 = max(end_i)
         endM1 = max(end_j)
 
+        shifts = [[start_i[i],start_j[i]] for i in range(len(start_i))]
 
-        return BIG_Matrix,[K1,endK1,M1,endM1],[start_i,end_i,start_j,end_j]
+        return BIG_Matrix,[K1,endK1,M1,endM1],shifts
 
     def create_SOLE(self,polyPowers: list,
                     boundaries1: list,
@@ -156,17 +166,35 @@ class MonomialCommutator:
         return np.zeros((rows,cols))
 
 
-    def fill_SOLE(self,BIG_Matrices: list,
-                  shifts: list,
-                  boundaries: list,
+    def fill_SOLE(self,BIG_Matrices: list[list[Polynomial]],
+                  shifts_list: list,
+                  boundaries_list: list,
                   polyPowers: list,
                   SOLE: np.ndarray):
-        # TODO: rewrite
+
         row_n = 0
         for m in range(len(BIG_Matrices)):
+            matrices = BIG_Matrices[m]
+            shifts = shifts_list[m]
+            boundaries = boundaries_list[m]
 
+            #TODO: rewrite cycle, problem with boundaries  for i and j
+            for i in range(boundaries[0],boundaries[1]):
+                for j in range(boundaries[2],boundaries[3]):
+                    row = np.zeros((1,polyPowers[0]*polyPowers[1]*2))
+                    for k in range(len(matrices)):
+                        a_ij = matrices[k].coefficients[i,j]
 
+                        #TODO: problematic place
+                        ind_i = i - shifts[k][0] + matrices[k].derivative_i_n
+                        ind_j = j - shifts[k][1] + matrices[k].derivative_j_n
 
+                        position = matrices[k].id * (polyPowers[0]*polyPowers[1]) + ind_i * polyPowers[1] + ind_j
+
+                        row[0,position] += a_ij
+
+                    SOLE[row_n,:] = row
+                    row_n += 1
 
         return SOLE
 
@@ -195,7 +223,8 @@ class MonomialCommutator:
         )
         print(shifts1)
         print(boundaries1)
-        # print(BIG_Matrix1)
+        for poly in BIG_Matrix1:
+            print(poly)
 
         print(shifts2)
         print(boundaries2)
@@ -204,7 +233,7 @@ class MonomialCommutator:
         print("SOLE shape:",SOLE.shape)
         SOLE = self.fill_SOLE([BIG_Matrix1,BIG_Matrix2],[shifts1,shifts2],
                               [boundaries1,boundaries2],P.coefficients.shape,SOLE)
-        print(SOLE)
+        # print(SOLE)
 
 def __str__(self):
 
