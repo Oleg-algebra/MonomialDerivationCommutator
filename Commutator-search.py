@@ -1,6 +1,9 @@
 import numpy as np
 from numpy.polynomial.polynomial import Polynomial
 from scipy.odr import polynomial
+from scipy.linalg import solve_banded,lstsq
+
+from sympy import Matrix, solve_linear_system,symbols
 
 class Monomial:
     def __init__(self, n,coeff: float,powers:list):
@@ -41,13 +44,16 @@ class Polynomial:
 
 class MonomialCommutator:
 
-    def __init__(self, n,monomials: list):
+    def __init__(self, n,monomials: list, N1, N2):
         for monomial in monomials:
             if len(monomial.getPowers()) != n:
                 raise AssertionError(f'powers must be of length {n}')
         self.monomials = monomials
         self.n = n
         self.SOLE = None
+
+        self.N1 = N1
+        self.N2 = N2
 
 
 
@@ -56,8 +62,8 @@ class MonomialCommutator:
 
         powers1 = self.monomials[0].getPowers()
         powers2 = self.monomials[1].getPowers()
-        N = abs(powers1[0] - powers2[0]) + 5
-        M = abs(powers1[1] - powers2[1]) + 5
+        N = abs(powers1[0] - powers2[0]) * self.N1 + self.N2
+        M = abs(powers1[1] - powers2[1]) * self.N1 + self.N2
         coeffients = np.ones((N,M))
         return Polynomial(coeffients,0),Polynomial(coeffients,1)
 
@@ -178,14 +184,15 @@ class MonomialCommutator:
             shifts = shifts_list[m]
             boundaries = boundaries_list[m]
 
-            #TODO: rewrite cycle, problem with boundaries  for i and j
             for i in range(boundaries[0],boundaries[1]):
                 for j in range(boundaries[2],boundaries[3]):
                     row = np.zeros((1,polyPowers[0]*polyPowers[1]*2))
                     for k in range(len(matrices)):
                         a_ij = matrices[k].coefficients[i,j]
 
-                        #TODO: problematic place
+                        if a_ij == 0:
+                            continue
+
                         ind_i = i - shifts[k][0] + matrices[k].derivative_i_n
                         ind_j = j - shifts[k][1] + matrices[k].derivative_j_n
 
@@ -198,13 +205,68 @@ class MonomialCommutator:
 
         return SOLE
 
+    def find_nonzero(self,SOLE,i):
+        for j in range(i+1,SOLE.shape[0]):
+            if SOLE[j,i] == 0:
+                continue
+            row_j = SOLE[j,:]
+            row_i = SOLE[i,:]
+            SOLE[i,:] = row_j
+            SOLE[j,:] = row_i
 
 
+    def direct_Gauss(self,SOLE: np.ndarray):
+
+        for j in range(SOLE.shape[1]-1):
+            row_j = SOLE[j,:]
+            for i in range(j+1,SOLE.shape[0]):
+                if SOLE[i,j] == 0:
+                    continue
+                if SOLE[j,j] == 0:
+                    self.find_nonzero(SOLE,j)
+                    if SOLE[j,j] == 0:
+                        continue
+                row_i = SOLE[i,:]
+                lcm_ab = np.lcm(SOLE[j,j],SOLE[i,j])
+
+                multiple1 = lcm_ab / SOLE[i,j]
+                number = SOLE[j,j]
+                multiple2 = lcm_ab / SOLE[j,j]
+                m_row_i = row_i * multiple1
+                m_row_j = row_j * multiple2
+                new_row_i = m_row_i - m_row_j
+                SOLE[i,:] = new_row_i
+
+        return SOLE
+
+    def backward_Gauss(self,SOLE: np.ndarray):
+
+        for j in range(SOLE.shape[1]-1,0,-1):
+            row_j = SOLE[j, :]
+            for i in range(j - 1, -1,-1):
+                if SOLE[i, j] == 0:
+                    continue
+                row_i = SOLE[i, :]
+                lcm_ab = np.lcm(SOLE[j, j], SOLE[i, j])
+
+                multiple1 = lcm_ab / SOLE[i, j]
+                multiple2 = lcm_ab / SOLE[j, j]
+                m_row_i = row_i * multiple1
+                m_row_j = row_j * multiple2
+                new_row_i = m_row_i - m_row_j
+                SOLE[i, :] = new_row_i
+
+        return SOLE
+
+
+    def solve_SOLE(self,SOLE: np.ndarray):
+
+        pass
 
     def commutator_search(self):
         [P,Q] = self.generateCommutator()
-        print("P shape:",P.coefficients.shape)
-        print("Q shape:",Q.coefficients.shape)
+        # print("P shape:",P.coefficients.shape)
+        # print("Q shape:",Q.coefficients.shape)
         P_derivatives = [self.x_derivative(P),self.y_derivative(P)]
         Q_derivatives = [self.x_derivative(Q),self.y_derivative(Q)]
 
@@ -221,19 +283,41 @@ class MonomialCommutator:
         BIG_Matrix2,boundaries2,shifts2 = self.create_BIG_matrix(
             [P,Q], monomial2_derivatives, Q_derivatives,
         )
-        print(shifts1)
-        print(boundaries1)
-        for poly in BIG_Matrix1:
-            print(poly)
+        # print(shifts1)
+        # print(boundaries1)
+        # for poly in BIG_Matrix1:
+        #     print(poly)
 
-        print(shifts2)
-        print(boundaries2)
+        # print(shifts2)
+        # print(boundaries2)
         # print(BIG_Matrix2)
         SOLE = self.create_SOLE([P.coefficients.shape[0],P.coefficients.shape[1]],boundaries1,boundaries2)
-        print("SOLE shape:",SOLE.shape)
+        # print("SOLE shape:",SOLE.shape)
         SOLE = self.fill_SOLE([BIG_Matrix1,BIG_Matrix2],[shifts1,shifts2],
                               [boundaries1,boundaries2],P.coefficients.shape,SOLE)
+
         # print(SOLE)
+
+        b = np.zeros((SOLE.shape[0],1))
+        # print(b.shape)
+
+        system_matrix = np.concatenate((SOLE,b),axis=1)
+        # print(system_matrix.shape)
+        A = Matrix(system_matrix)
+        vars_a = []
+        vars_b = []
+        for i in range(P.coefficients.shape[0]):
+            for j in range(P.coefficients.shape[1]):
+                vars_a.append(symbols(f"a{i}_{j}"))
+                vars_b.append(symbols(f"b{i}_{j}"))
+
+        vars = np.concat((vars_a,vars_b))
+        # print(vars)
+        x = solve_linear_system(A,*vars)
+        print(x)
+        # print(A.shape)
+        # print(len(vars))
+
 
 def __str__(self):
 
@@ -244,24 +328,6 @@ def __str__(self):
 if __name__ == "__main__":
     component1 = Monomial(2,2,[2,3])
     component2 = Monomial(2,1,[3,4])
-    moComm = MonomialCommutator(2,[component1,component2])
+    moComm = MonomialCommutator(2,[component1,component2],2,5)
+
     moComm.commutator_search()
-
-
-
-    # print(moComm)
-
-    # polynomial = np.array([[1,1,2],[2,3,5]])
-    # print("Polynomial:\n",polynomial)
-    #
-    # der_x = moComm.x_derivative(polynomial)
-    # print("derivative x\n",der_x)
-    #
-    # der_y = moComm.y_derivative(polynomial)
-    # print("derivative y\n",der_y)
-    #
-    # monomial = Monomial(3,2,[2,3,3])
-    # print("Monomial:\n",monomial)
-    # print("derivative x\n",moComm.monomial_derivative(monomial,1))
-    # print("derivative y\n",moComm.monomial_derivative(monomial,2))
-    # print("derivative z\n",moComm.monomial_derivative(monomial,3))
