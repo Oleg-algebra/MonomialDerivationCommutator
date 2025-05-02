@@ -2,7 +2,7 @@ import sympy
 from numpy.polynomial.polynomial import Polynomial
 from scipy.differentiate import derivative
 from scipy.odr import polynomial
-from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, collect, Expr, solve, Poly, solve_linear, solve_undetermined_coeffs
+from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, collect, Expr, solve, Poly, solve_linear, solve_undetermined_coeffs , N
 import numpy as np
 
 class Monomial:
@@ -99,7 +99,7 @@ class Commutator:
 
         return der_unknown
 
-    def searchCommutator(self):
+    def searchCommutator1(self):
         unknown_derivation = self.generateCommutator()
 
         # for poly in self.derivation.polynomials:
@@ -132,10 +132,55 @@ class Commutator:
                 equations.append(term[1])
         print(f'equations: {equations}')
         res = solve(equations,list(self.unknown_coeffients.keys()))
-        # res = solve_linear(equations,symbols=self.unknown_coeffients)
-        res = solve_undetermined_coeffs(polys[0],coeffs=self.unknown_coeffients)
-        res1 = solve_undetermined_coeffs(polys[1],coeffs=self.unknown_coeffients)
-        return res, res1
+
+        return res
+
+    def searchCommutator2(self):
+        unknown_derivation = self.generateCommutator()
+
+        # for poly in self.derivation.polynomials:
+        #     print(poly.polynomial_symbolic)
+        #
+        for poly in unknown_derivation.polynomials:
+            print(f'unknown polynomial: {poly.polynomial_symbolic}')
+
+        print(self.unknown_coeffients.keys())
+
+        derivatives1 = []
+        for poly in unknown_derivation.polynomials:
+            derivatives1.append(self.derivation.take_derivative(poly.polynomial_symbolic))
+
+        derivatives2 = []
+        for poly in self.derivation.polynomials:
+            derivatives2.append(unknown_derivation.take_derivative(poly.polynomial_symbolic))
+
+        polys = []
+        for i in range(len(derivatives1)):
+            polys.append(derivatives1[i] - derivatives2[i])
+
+        equations = []
+        variables = unknown_derivation.variables
+        for poly in polys:
+            p = Poly(poly, variables)
+            for coeff in p.terms():
+                p1  = Poly(coeff[1],variables)
+                print("->",p1)
+                for t in p1.terms():
+                    p2 = Poly(t[1],list(self.unknown_coeffients.keys()))
+                    print("--->",p2.terms())
+                    for term in p2.terms():
+                        row = np.array(term[0])
+                        print(type(term[1]))
+                        print(N(term[1],chop = True).round(1))
+                        row*=term[1]
+                        equations.append(row)
+            for term in p.terms():
+                equations.append(term[1])
+        print(f'equations: {equations}')
+        res = solve(equations, list(self.unknown_coeffients.keys()))
+
+        return res
+
 
 
 
@@ -156,11 +201,14 @@ if __name__ == "__main__":
 
     der = Derivation([polynomial1,polynomial2],polynomial2.vars)
     commutator = Commutator(der,[*powers1,*powers2],1)
-    res, res1 = commutator.searchCommutator()
+    res = commutator.searchCommutator2()
     print(res)
-    print(res1)
     for coef in res.keys():
         print(coef," = ", res[coef])
+
+    m = Matrix(np.array([[1,2],[3,4]]))
+    print(m)
+    print(type(m))
 
 
 
