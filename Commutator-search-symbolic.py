@@ -70,13 +70,14 @@ class Commutator:
     def __init__(self, derivation: Derivation,powers: list,K):
         self.derivation = derivation
         self.powers = powers
-        self.unknown_coeffients = {}
+        self.unknown_coeffients = []
         self.K = K
+        self.unknown_derivation = self.generateCommutator()
 
     def generateCommutator(self) -> Derivation:
         variables = self.derivation.variables
         N = max(abs(self.powers[0]-self.powers[1]),abs(self.powers[2]-self.powers[3])) + self.K
-        print(N)
+        print("Matrix degree: ",N)
         Matrices = []
         symb = ["a","b"]
 
@@ -88,7 +89,7 @@ class Commutator:
                 for j in range(N):
                     coef = symbols(f'{sym}{i}_{j}')
                     row.append(coef)
-                    self.unknown_coeffients[coef] = (i,j)
+                    self.unknown_coeffients.append(coef)
                 matrix.append(row)
             Matrices.append(Matrix(matrix))
         polynomials = []
@@ -100,23 +101,23 @@ class Commutator:
         return der_unknown
 
     def searchCommutator1(self):
-        unknown_derivation = self.generateCommutator()
+
 
         # for poly in self.derivation.polynomials:
         #     print(poly.polynomial_symbolic)
         #
-        for poly in unknown_derivation.polynomials:
+        for poly in self.unknown_derivation.polynomials:
             print(f'unknown polynomial: {poly.polynomial_symbolic}')
 
-        print(self.unknown_coeffients.keys())
+        print(self.unknown_coeffients)
 
         derivatives1 = []
-        for poly in unknown_derivation.polynomials:
+        for poly in self.unknown_derivation.polynomials:
             derivatives1.append(self.derivation.take_derivative(poly.polynomial_symbolic))
 
         derivatives2 = []
         for poly in self.derivation.polynomials:
-            derivatives2.append(unknown_derivation.take_derivative(poly.polynomial_symbolic))
+            derivatives2.append(self.unknown_derivation.take_derivative(poly.polynomial_symbolic))
 
         polys = []
         for i in range(len(derivatives1)):
@@ -125,61 +126,81 @@ class Commutator:
 
 
         equations = []
-        variables = unknown_derivation.variables
+        variables = self.unknown_derivation.variables
         for poly in polys:
             p = Poly(poly,variables)
             for term in p.terms():
                 equations.append(term[1])
         print(f'equations: {equations}')
-        res = solve(equations,list(self.unknown_coeffients.keys()))
+        res = solve(equations,self.unknown_coeffients)
 
         return res
 
     def searchCommutator2(self):
-        unknown_derivation = self.generateCommutator()
 
-        # for poly in self.derivation.polynomials:
-        #     print(poly.polynomial_symbolic)
-        #
-        for poly in unknown_derivation.polynomials:
-            print(f'unknown polynomial: {poly.polynomial_symbolic}')
-
-        print(self.unknown_coeffients.keys())
 
         derivatives1 = []
-        for poly in unknown_derivation.polynomials:
+        for poly in self.unknown_derivation.polynomials:
             derivatives1.append(self.derivation.take_derivative(poly.polynomial_symbolic))
 
         derivatives2 = []
         for poly in self.derivation.polynomials:
-            derivatives2.append(unknown_derivation.take_derivative(poly.polynomial_symbolic))
+            derivatives2.append(self.unknown_derivation.take_derivative(poly.polynomial_symbolic))
 
         polys = []
         for i in range(len(derivatives1)):
             polys.append(derivatives1[i] - derivatives2[i])
 
         equations = []
-        variables = unknown_derivation.variables
+        variables = self.unknown_derivation.variables
         for poly in polys:
             p = Poly(poly, variables)
             for coeff in p.terms():
                 p1  = Poly(coeff[1],variables)
-                print("->",p1)
                 for t in p1.terms():
-                    p2 = Poly(t[1],list(self.unknown_coeffients.keys()))
-                    print("--->",p2.terms())
+                    p2 = Poly(t[1],self.unknown_coeffients)
+                    row = np.zeros((1,len(self.unknown_coeffients)))
                     for term in p2.terms():
-                        row = np.array(term[0])
-                        print(type(term[1]))
-                        print(N(term[1],chop = True).round(1))
-                        row*=term[1]
-                        equations.append(row)
-            for term in p.terms():
-                equations.append(term[1])
-        print(f'equations: {equations}')
-        res = solve(equations, list(self.unknown_coeffients.keys()))
+                        coeffs = np.array(term[0])
+                        scalar = float(N(term[1],chop = True))
+                        row= row + coeffs * scalar
+                    equations.append(row[0])
+
+        # print(f'equations: {equations}')
+        matrix = np.array(equations)
+        # print(matrix)
+        matrix = np.concatenate((matrix,np.zeros((matrix.shape[0],1))),axis=1)
+        matrix = Matrix(matrix)
+        res = solve_linear_system(matrix, *self.unknown_coeffients)
 
         return res
+
+    def get_commutator(self):
+
+        coefficients = self.searchCommutator2()
+
+        arbitrary_coefficients = []
+        for coeff in self.unknown_coeffients:
+            if coeff not in coefficients.keys():
+                arbitrary_coefficients.append(coeff)
+
+
+        for poly in self.unknown_derivation.polynomials:
+            for coeff in coefficients.keys():
+                new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,coefficients[coeff])
+                poly.polynomial_symbolic = new_symbolic_expr
+
+
+
+        for poly in self.unknown_derivation.polynomials:
+            for coeff in arbitrary_coefficients:
+                new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
+                poly.polynomial_symbolic = new_symbolic_expr
+
+
+        return self.unknown_derivation
+
+
 
 
 
@@ -192,23 +213,31 @@ class Commutator:
 
 
 if __name__ == "__main__":
-    powers1 = [1,2]
-    powers2 = [1,2]
-    monomail1 = Monomial(2,-1,powers1)
-    monomail2 = Monomial(2,1,powers2)
+    powers1 = [1,1]
+    alpha = -1
+    powers2 = [1,1]
+    beta = 1
+    monomail1 = Monomial(2,alpha,powers1)
+    monomail2 = Monomial(2,beta,powers2)
     polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
     polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
 
     der = Derivation([polynomial1,polynomial2],polynomial2.vars)
-    commutator = Commutator(der,[*powers1,*powers2],1)
-    res = commutator.searchCommutator2()
-    print(res)
-    for coef in res.keys():
-        print(coef," = ", res[coef])
+    K = 3
+    commutator = Commutator(der,[*powers1,*powers2],K)
 
-    m = Matrix(np.array([[1,2],[3,4]]))
-    print(m)
-    print(type(m))
+    print("========Given derivation=======")
+    for i in range(len(der.polynomials)):
+        print(f'poly {i}: {der.polynomials[i].polynomial_symbolic}')
+
+    print("==========Unknown derivation=======")
+    res = commutator.get_commutator()
+    for i in range(len(res.polynomials)):
+        print(f'poly {i}: {simplify(res.polynomials[i].polynomial_symbolic)}' )
+
+
+
+
 
 
 
