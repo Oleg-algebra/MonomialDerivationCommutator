@@ -197,8 +197,30 @@ class Commutator:
                 new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
                 poly.polynomial_symbolic = new_symbolic_expr
 
+        is_proportional = self.is_proportional()
+        return self.unknown_derivation,is_proportional
 
-        return self.unknown_derivation
+
+    def is_proportional(self):
+        poly_unknown = self.unknown_derivation.polynomials
+        poly_given = self.derivation.polynomials
+
+        fractions = []
+
+
+
+        for i in range(len(poly_unknown)):
+            fraction = poly_unknown[i].polynomial_symbolic / poly_given[i].polynomial_symbolic
+            fraction = simplify(fraction)
+            fractions.append(fraction)
+        print(fractions)
+        const = simplify(fractions[0]/fractions[0])
+        for i in range(1,len(fractions)):
+            check  = fractions[0].equals(fractions[i])
+            if not check:
+                return False
+
+        return True
 
 
 
@@ -213,9 +235,9 @@ class Commutator:
 
 
 if __name__ == "__main__":
-    powers1 = [1,1]
+    powers1 = [0,1]
     alpha = -1
-    powers2 = [1,1]
+    powers2 = [1,0]
     beta = 1
     monomail1 = Monomial(2,alpha,powers1)
     monomail2 = Monomial(2,beta,powers2)
@@ -231,10 +253,11 @@ if __name__ == "__main__":
         print(f'poly {i}: {der.polynomials[i].polynomial_symbolic}')
 
     print("==========Unknown derivation=======")
-    res = commutator.get_commutator()
+    res, isProportional = commutator.get_commutator()
     for i in range(len(res.polynomials)):
         print(f'poly {i}: {simplify(res.polynomials[i].polynomial_symbolic)}' )
 
+    print(f"proportional: {isProportional}")
 
 
 
