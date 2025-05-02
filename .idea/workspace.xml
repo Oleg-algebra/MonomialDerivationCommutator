@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="create symbolic implementation">
+    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="implemented verification if derivations are proportional">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Commutator-search-symbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +40,9 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.Commutator-search-symbolic.executor": "Run",
     "Python.Commutator-search.executor": "Run",
+    "Python.CommutatorSearchSymbolic.executor": "Run",
     "Python.test.executor": "Run",
+    "Python.test1.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
@@ -76,6 +80,8 @@
       <workItem from="1746002249633" duration="3350000" />
       <workItem from="1746009632883" duration="3055000" />
       <workItem from="1746021145769" duration="15980000" />
+      <workItem from="1746180744772" duration="14916000" />
+      <workItem from="1746200240739" duration="13324000" />
     </task>
     <task id="LOCAL-00001" summary="created class Polynomial; rewritten functions create_BIG_matrix, y_derivative, x_derivative, generateCommutator">
       <option name="closed" value="true" />
@@ -125,7 +131,39 @@
       <option name="project" value="LOCAL" />
       <updated>1746038085203</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="finished implementation of forming and solving equations using solve method">
+      <option name="closed" value="true" />
+      <created>1746187955110</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746187955110</updated>
+    </task>
+    <task id="LOCAL-00008" summary="almost implemented method to form matrix from symbolic equations">
+      <option name="closed" value="true" />
+      <created>1746189810639</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1746189810639</updated>
+    </task>
+    <task id="LOCAL-00009" summary="finished implementation of commutator search by solver solve_linear_system">
+      <option name="closed" value="true" />
+      <created>1746196954180</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1746196954180</updated>
+    </task>
+    <task id="LOCAL-00010" summary="implemented verification if derivations are proportional">
+      <option name="closed" value="true" />
+      <created>1746198263129</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746198263129</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,7 +187,11 @@
     <MESSAGE value="rewritten fill_SOLE function" />
     <MESSAGE value="finished numerical approach" />
     <MESSAGE value="create symbolic implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="create symbolic implementation" />
+    <MESSAGE value="finished implementation of forming and solving equations using solve method" />
+    <MESSAGE value="almost implemented method to form matrix from symbolic equations" />
+    <MESSAGE value="finished implementation of commutator search by solver solve_linear_system" />
+    <MESSAGE value="implemented verification if derivations are proportional" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented verification if derivations are proportional" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -171,18 +213,35 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Commutator-search-symbolic.py</url>
-          <line>53</line>
-          <option name="timeStamp" value="20" />
+          <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
+          <line>167</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
+          <line>92</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search_symbolic.coverage" NAME="Commutator-search-symbolic Coverage Results" MODIFIED="1746037794217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search_symbolic.coverage" NAME="Commutator-search-symbolic Coverage Results" MODIFIED="1746198157965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/code_comutator$test.coverage" NAME="test Coverage Results" MODIFIED="1745835997765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/code_comutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1745863771379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1746027510619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1746216259767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1746208049047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test.coverage" NAME="test Coverage Results" MODIFIED="1746021191127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

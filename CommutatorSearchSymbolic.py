@@ -153,18 +153,34 @@ class Commutator:
 
         equations = []
         variables = self.unknown_derivation.variables
+        # for poly in polys:
+        #     p = Poly(poly, variables)
+        #     for coeff in p.terms():
+        #         p1  = Poly(coeff[1],variables)
+        #         for t in p1.terms():
+        #             p2 = Poly(t[1],self.unknown_coeffients)
+        #             row = np.zeros((1,len(self.unknown_coeffients)))
+        #             for term in p2.terms():
+        #                 coeffs = np.array(term[0])
+        #                 scalar = float(N(term[1],chop = True))
+        #                 row= row + coeffs * scalar
+        #             equations.append(row[0])
+
+        terms = []
         for poly in polys:
             p = Poly(poly, variables)
             for coeff in p.terms():
-                p1  = Poly(coeff[1],variables)
-                for t in p1.terms():
-                    p2 = Poly(t[1],self.unknown_coeffients)
-                    row = np.zeros((1,len(self.unknown_coeffients)))
-                    for term in p2.terms():
-                        coeffs = np.array(term[0])
-                        scalar = float(N(term[1],chop = True))
-                        row= row + coeffs * scalar
-                    equations.append(row[0])
+                p1  = Poly(coeff[1],self.unknown_coeffients)
+                terms.append(p1)
+
+        for term in terms:
+            # print(term)
+            row = np.zeros((1,len(self.unknown_coeffients)))
+            for t in term.terms():
+                coeffs = np.array(t[0])
+                scalar = float(N(t[1], chop=True))
+                row = row + coeffs * scalar
+            equations.append(row[0])
 
         # print(f'equations: {equations}')
         matrix = np.array(equations)
@@ -213,7 +229,7 @@ class Commutator:
             fraction = poly_unknown[i].polynomial_symbolic / poly_given[i].polynomial_symbolic
             fraction = simplify(fraction)
             fractions.append(fraction)
-        print(fractions)
+        # print(fractions)
         const = simplify(fractions[0]/fractions[0])
         for i in range(1,len(fractions)):
             check  = fractions[0].equals(fractions[i])
@@ -221,16 +237,6 @@ class Commutator:
                 return False
 
         return True
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -245,7 +251,7 @@ if __name__ == "__main__":
     polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
 
     der = Derivation([polynomial1,polynomial2],polynomial2.vars)
-    K = 3
+    K = 1
     commutator = Commutator(der,[*powers1,*powers2],K)
 
     print("========Given derivation=======")
