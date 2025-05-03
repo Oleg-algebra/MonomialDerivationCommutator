@@ -17,17 +17,40 @@ import time
 
 from CommutatorSearchSymbolic import *
 
+def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
+    polyDerivatives1 = []
+    polyDerivatives2 = []
+
+    for poly in derivation1.polynomials:
+        der = derivation2.take_derivative(poly.polynomial_symbolic)
+        polyDerivatives1.append(der)
+
+    for poly in derivation2.polynomials:
+        der = derivation1.take_derivative(poly.polynomial_symbolic)
+        polyDerivatives2.append(der)
+
+    for i in range(len(polyDerivatives1)):
+        difference = polyDerivatives1[i] - polyDerivatives2[i]
+        if not difference.equals(0):
+            return False
+    return True
+
 tests_number = 1000
 
-min_coeff = -10
-max_coeff = 10
+coeff_limit = 50
+min_coeff = -coeff_limit
+max_coeff = coeff_limit
 
 max_power = 10
+
+K = 2
 
 variables_number = 2
 proportionalCounter = 0
 unproportionalCounter = 0
 zeroDerivationCounter = 0
+correct_answers_counter = 0
+false_answers_counter = 0
 
 results = {}
 givenDerivationKEY = "GIVEN_DERIVATION"
@@ -38,9 +61,12 @@ isProportionalKEY = "isProportional"
 zeroDerivaionsKEY = "zeroDerivaions"
 isZeroDerivationKEY = "IsZeroDerivation"
 matrixDimension  = "matrixDimension"
+isSolutionCorrectKey = "isSolutionCorrect"
+correctAnswersNumberKEY = "correctAnswersNumber"
+falseAnswersNumberKey = "falseAnswersNumber"
 
 s = 0
-K = 2
+
 counter = 0
 
 while counter < tests_number:
@@ -53,10 +79,6 @@ while counter < tests_number:
     n = np.random.randint(0, max_power)
     m = n + 1
 
-    alpha = np.random.randint(min_coeff, max_coeff)
-    beta = np.random.randint(min_coeff, max_coeff)
-    # beta = alpha
-
     a = np.random.randint(min_coeff, max_coeff)
     alpha = -a * m
     beta = a * k
@@ -65,8 +87,10 @@ while counter < tests_number:
     powers2 = [l, m]
 
     if alpha ** 2 + beta **2 == 0:
-        alpha = np.random.randint(min_coeff, max_coeff)
-        beta = np.random.randint(min_coeff, max_coeff)
+        continue
+
+    if (k,n,l,m,alpha,beta) in results.keys():
+        continue
 
     monomail1 = Monomial(variables_number,alpha,powers1)
     monomail2 = Monomial(variables_number,beta,powers2)
@@ -91,6 +115,15 @@ while counter < tests_number:
     result[matrixDimension] = commutator.unknown_derivation.polynomials[0].coefficients.shape
     commutatorPolynomials = []
 
+    if isSolution(der,res):
+        correct_answers_counter += 1
+        result[isSolutionCorrectKey] = True
+        print("True")
+    else:
+        false_answers_counter += 1
+        result[isSolutionCorrectKey] = False
+        print("False")
+
     zeroCounter = 0
     for i in range(len(res.polynomials)):
         commutatorPolynomials.append(res.polynomials[i].polynomial_symbolic)
@@ -104,12 +137,9 @@ while counter < tests_number:
     result[commutatorKEY] = commutatorPolynomials
     result[isProportionalKEY] = isProportional
 
-    if (k,n,l,m) not in results.keys():
-        results[(k,n,l,m)] = result
-        counter += 1
-    else:
-        continue
-    print(len(results.keys()))
+
+    results[(k,n,l,m,alpha,beta)] = result
+    counter += 1
 
     end = time.time()
     s+=(end-start)
@@ -122,6 +152,8 @@ for res in results.values():
     if not res[isProportionalKEY] :
         unproportionalCounter += 1
 
+results[correctAnswersNumberKEY] = correct_answers_counter
+results[falseAnswersNumberKey] = false_answers_counter
 results[proportionalKEY] = proportionalCounter
 results[unproportionalKEY] = unproportionalCounter
 results[zeroDerivationCounter] = zeroDerivationCounter
@@ -143,6 +175,8 @@ file.write(f"Number of tests: {tests_number}\n")
 file.write(f"proportional: {proportionalCounter}\n")
 file.write(f"unproportional: {unproportionalCounter}\n")
 file.write(f"zeroDerivaions: {zeroDerivationCounter}\n")
+file.write(f"correct answers number: {correct_answers_counter}\n")
+file.write(f"false answers number: {false_answers_counter}\n")
 file.write(f"total time: {s}\n")
 file.write(f"avarage time: {s / tests_number}\n")
 file.write("======================Special cases=========================\n")
@@ -170,6 +204,24 @@ for param, res in results.items():
         if not res[isProportionalKEY]:
             file.write(f"{count}):  {param}: {res}\n")
             count += 1
+
+file.write("=======================Correct answers=========================\n")
+count = 1
+for param, res in results.items():
+    if type(res).__name__ == "dict":
+        if res[isSolutionCorrectKey]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
+
+
+file.write("=======================False answers=========================\n")
+count = 1
+for param, res in results.items():
+    if type(res).__name__ == "dict":
+        if not res[isSolutionCorrectKey]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
+
 
 
 file.write("==================END of REPORT=======================\n")
