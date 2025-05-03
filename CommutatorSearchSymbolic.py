@@ -1,8 +1,5 @@
-import sympy
 from numpy.polynomial.polynomial import Polynomial
-from scipy.differentiate import derivative
-from scipy.odr import polynomial
-from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, collect, Expr, solve, Poly, solve_linear, solve_undetermined_coeffs , N, nsimplify
+from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, Expr, solve, Poly, N, nsimplify
 import numpy as np
 
 class Monomial:
@@ -46,9 +43,6 @@ class Polynomial:
                     self.poly_coeffs.append(var)
                     monomial = Monomial(n_var,coefficients[i,j],[i,j])
                     self.polynomial_symbolic += monomial.monomial_symbolic
-
-
-
 
 
 
@@ -102,14 +96,10 @@ class Commutator:
 
     def searchCommutator1(self):
 
+        # for poly in self.unknown_derivation.polynomials:
+        #     print(f'unknown polynomial: {poly.polynomial_symbolic}')
 
-        # for poly in self.derivation.polynomials:
-        #     print(poly.polynomial_symbolic)
-        #
-        for poly in self.unknown_derivation.polynomials:
-            print(f'unknown polynomial: {poly.polynomial_symbolic}')
-
-        print(self.unknown_coeffients)
+        # print(self.unknown_coeffients)
 
         derivatives1 = []
         for poly in self.unknown_derivation.polynomials:
@@ -131,7 +121,7 @@ class Commutator:
             p = Poly(poly,variables)
             for term in p.terms():
                 equations.append(term[1])
-        print(f'equations: {equations}')
+        # print(f'equations: {equations}')
         res = solve(equations,self.unknown_coeffients)
 
         return res

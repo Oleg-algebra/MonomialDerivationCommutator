@@ -14,7 +14,7 @@
 import os
 import time
 
-import numpy as np
+
 from CommutatorSearchSymbolic import *
 
 tests_number = 10
@@ -42,6 +42,7 @@ isZeroDerivationKEY = "IsZeroDerivation"
 matrixDimension  = "matrixDimension"
 
 s = 0
+K = 2
 
 for i in range(tests_number):
     start = time.time()
@@ -53,24 +54,20 @@ for i in range(tests_number):
     n = np.random.randint(0, max_power)
     m = n + 1
 
-    # l = m = k = n = 1
-    # alpha = -1
-    # beta = 1
-
-    powers1 = [k,n]
-    powers2 = [l, m]
-
     alpha = np.random.randint(min_coeff, max_coeff)
     beta = np.random.randint(min_coeff, max_coeff)
     # beta = alpha
 
     a = np.random.randint(min_coeff, max_coeff)
-    alpha = -a*m
+    alpha = -a * m
     beta = a * k
 
-    # if alpha ** 2 + beta **2 == 0:
-    #     alpha = np.random.randint(min_coeff, max_coeff)
-    #     beta = np.random.randint(min_coeff, max_coeff)
+    powers1 = [k,n]
+    powers2 = [l, m]
+
+    if alpha ** 2 + beta **2 == 0:
+        alpha = np.random.randint(min_coeff, max_coeff)
+        beta = np.random.randint(min_coeff, max_coeff)
 
     monomail1 = Monomial(variables_number,alpha,powers1)
     monomail2 = Monomial(variables_number,beta,powers2)
@@ -83,7 +80,7 @@ for i in range(tests_number):
 
 
     der = Derivation([polynomial1,polynomial2],monomail1.vars)
-    K = 2
+
     commutator = Commutator(der,[*powers1,*powers2],K)
 
 
@@ -106,8 +103,6 @@ for i in range(tests_number):
     else:
         result[isZeroDerivationKEY] = False
 
-
-
     result[commutatorKEY] = commutatorPolynomials
     result[isProportionalKEY] = isProportional
 
@@ -124,16 +119,11 @@ for i in range(tests_number):
     end = time.time()
     s+=(end-start)
 
-
-
 results[proportionalKEY] = proportionalCounter
 results[unproportionalKEY] = unproportionalCounter
 results[zeroDerivationCounter] = zeroDerivationCounter
 
-# for key,values in results.items():
-#     print(key)
-#     print(values)
-#     print("================================")
+
 print(f'proportional: {proportionalCounter}')
 print(f'unproportional: {unproportionalCounter}')
 print(f'zeroDerivaions: {zeroDerivationCounter}')
