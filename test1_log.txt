@@ -1,13 +1,22 @@
 Report of testing
 ======================General information===================
 Number of tests: 10
-proportional: 1
-unproportional: 9
-zeroDerivaions: 0
-total time: 23.007452487945557
-avarage time: 2.3007452487945557
+proportional: 2
+unproportional: 6
+zeroDerivaions: 1
+total time: 16.53965401649475
+avarage time: 1.6539654016494751
 ======================Special cases=========================
 =====================Proportional derivations==================
-(10, 3, 9, 4): {'GIVEN_DERIVATION': [32*x_0**10*x_1**3, -80*x_0**9*x_1**4], 'IsZeroDerivation': False, 'matrixDimension': (9, 9), 'COMMUTATOR': [-2*x_0**5*x_1/5, x_0**4*x_1**2], 'isProportional': True}
+(10, 3, 9, 4): {'GIVEN_DERIVATION': [16*x_0**10*x_1**3, -40*x_0**9*x_1**4], 'IsZeroDerivation': False, 'matrixDimension': (9, 9), 'COMMUTATOR': [-2*x_0**5*x_1/5, x_0**4*x_1**2], 'isProportional': True}
+(2, 1, 1, 2): {'GIVEN_DERIVATION': [-2*x_0**2*x_1, 2*x_0*x_1**2], 'IsZeroDerivation': False, 'matrixDimension': (3, 3), 'COMMUTATOR': [-x_0**2*x_1 - x_0, x_0*x_1**2 + x_1], 'isProportional': True}
 =======================Zero derivations=========================
+(10, 6, 9, 7): {'GIVEN_DERIVATION': [-7*x_0**10*x_1**6, 10*x_0**9*x_1**7], 'IsZeroDerivation': True, 'matrixDimension': (6, 6), 'COMMUTATOR': [0, 0], 'isProportional': True}
+=======================Unproportional derivation=========================
+(1, 7, 0, 8): {'GIVEN_DERIVATION': [-8*x_0*x_1**7, x_1**8], 'IsZeroDerivation': False, 'matrixDimension': (10, 10), 'COMMUTATOR': [x_0**2*x_1**8 - 8*x_0*x_1**7 + x_0, x_1**8], 'isProportional': False}
+(10, 5, 9, 6): {'GIVEN_DERIVATION': [-24*x_0**10*x_1**5, 40*x_0**9*x_1**6], 'IsZeroDerivation': False, 'matrixDimension': (7, 7), 'COMMUTATOR': [-5*x_0**6*x_1**3/9 - 3*x_0**5*x_1**2/5 - 5*x_0/9, x_0**5*x_1**4 + x_0**4*x_1**3 + x_1], 'isProportional': False}
+(4, 2, 3, 3): {'GIVEN_DERIVATION': [-15*x_0**4*x_1**2, 20*x_0**3*x_1**3], 'IsZeroDerivation': False, 'matrixDimension': (4, 4), 'COMMUTATOR': [-2*x_0/3, x_1], 'isProportional': False}
+(1, 1, 0, 2): {'GIVEN_DERIVATION': [-16*x_0*x_1, 8*x_1**2], 'IsZeroDerivation': False, 'matrixDimension': (4, 4), 'COMMUTATOR': [x_0**2*x_1**2 - 2*x_0*x_1 + x_0, x_1**2], 'isProportional': False}
+(10, 0, 9, 1): {'GIVEN_DERIVATION': [7*x_0**10, -70*x_0**9*x_1], 'IsZeroDerivation': False, 'matrixDimension': (12, 12), 'COMMUTATOR': [-x_0**10/10, x_0**10*x_1**2 + x_0**9*x_1 + x_1], 'isProportional': False}
+(8, 8, 7, 9): {'GIVEN_DERIVATION': [-45*x_0**8*x_1**8, 40*x_0**7*x_1**9], 'IsZeroDerivation': False, 'matrixDimension': (4, 4), 'COMMUTATOR': [-8*x_0/7, x_1], 'isProportional': False}
 ==================END of REPORT=======================

@@ -68,10 +68,9 @@ for i in range(tests_number):
     alpha = -a*m
     beta = a * k
 
-    if alpha ** 2 + beta **2 == 0:
-        # print("alpha == beta == 0")
-        # print("----> SKIP ---->")
-        continue
+    # if alpha ** 2 + beta **2 == 0:
+    #     alpha = np.random.randint(min_coeff, max_coeff)
+    #     beta = np.random.randint(min_coeff, max_coeff)
 
     monomail1 = Monomial(variables_number,alpha,powers1)
     monomail2 = Monomial(variables_number,beta,powers2)
@@ -165,6 +164,13 @@ for param, res in results.items():
     if type(res).__name__ == "dict":
         if res[isZeroDerivationKEY]:
             file.write(f"{param}: {res}\n")
+
+file.write("=======================Unproportional derivation=========================\n")
+for param, res in results.items():
+    if type(res).__name__ == "dict":
+        if not res[isProportionalKEY]:
+            file.write(f"{param}: {res}\n")
+
 
 file.write("==================END of REPORT=======================\n")
 file.close()
