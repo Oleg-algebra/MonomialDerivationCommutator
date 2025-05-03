@@ -11,12 +11,13 @@
 #
 #
 # case 1: l=k and n = m
+import os
 import time
 
 import numpy as np
 from CommutatorSearchSymbolic import *
 
-tests_number = 500
+tests_number = 10
 true_counter = 0        # counts solutions that proportional to D
 false_counter = 0       #  counts solutions that are not proportional to D
 
@@ -37,6 +38,8 @@ proportionalKEY = "proportionalCounter"
 unproportionalKEY = "unproportionalCounter"
 isProportionalKEY = "isProportional"
 zeroDerivaionsKEY = "zeroDerivaions"
+isZeroDerivationKEY = "IsZeroDerivation"
+matrixDimension  = "matrixDimension"
 
 s = 0
 
@@ -66,8 +69,8 @@ for i in range(tests_number):
     beta = a * k
 
     if alpha ** 2 + beta **2 == 0:
-        print("alpha == beta == 0")
-        print("----> SKIP ---->")
+        # print("alpha == beta == 0")
+        # print("----> SKIP ---->")
         continue
 
     monomail1 = Monomial(variables_number,alpha,powers1)
@@ -85,32 +88,30 @@ for i in range(tests_number):
     commutator = Commutator(der,[*powers1,*powers2],K)
 
 
-
+    result[isZeroDerivationKEY] = False
 
 
     res, isProportional = commutator.get_commutator()
+    result[matrixDimension] = commutator.unknown_derivation.polynomials[0].coefficients.shape
     commutatorPolynomials = []
-    if isProportional and alpha != -beta:
-        print("-->degrees: ", (k, n, l, m))
-        print(f"-->alpha: {alpha}, beta: {beta}")
-        print("========Given derivation=======")
-        for i in range(len(der.polynomials)):
-            print(f'-->poly {i}: {der.polynomials[i].polynomial_symbolic}')
 
-        print("==========Unknown derivation=======")
-        zeroCounter = 0
-        for i in range(len(res.polynomials)):
-            print(f'-->poly {i}: {simplify(res.polynomials[i].polynomial_symbolic)}' )
-            commutatorPolynomials.append(res.polynomials[i].polynomial_symbolic)
-            if res.polynomials[i].polynomial_symbolic.equals(0):
-                zeroCounter += 1
-            print(res.polynomials[i].polynomial_symbolic.equals(0))
-        if zeroCounter == variables_number:
-            zeroDerivationCounter += 1
+    zeroCounter = 0
+    for i in range(len(res.polynomials)):
+        commutatorPolynomials.append(res.polynomials[i].polynomial_symbolic)
+        if res.polynomials[i].polynomial_symbolic.equals(0):
+            zeroCounter += 1
+    if zeroCounter == variables_number:
+        zeroDerivationCounter += 1
+        result[isZeroDerivationKEY] = True
+
+    else:
+        result[isZeroDerivationKEY] = False
+
+
+
     result[commutatorKEY] = commutatorPolynomials
     result[isProportionalKEY] = isProportional
 
-    print(f"proportional: {isProportional}")
 
     if isProportional:
         proportionalCounter +=1
@@ -121,9 +122,7 @@ for i in range(tests_number):
 
 
     end = time.time()
-    print("Time elapsed: " + str(end-start))
     s+=(end-start)
-    print("=" * 200)
 
 
 
@@ -140,3 +139,27 @@ print(f'unproportional: {unproportionalCounter}')
 print(f'zeroDerivaions: {zeroDerivationCounter}')
 print("Total time: ", s)
 print("avarage time: ", s / tests_number)
+
+fileName = os.path.basename(__file__).split(".")[0]
+file = open(fileName+"_log.txt", "w")
+
+file.write("Report of testing\n")
+file.write("======================General information===================\n")
+file.write(f"Number of tests: {tests_number}\n")
+file.write(f"proportional: {proportionalCounter}\n")
+file.write(f"unproportional: {unproportionalCounter}\n")
+file.write(f"zeroDerivaions: {zeroDerivationCounter}\n")
+file.write(f"total time: {s}\n")
+file.write(f"avarage time: {s / tests_number}\n")
+file.write("======================Special cases=========================\n")
+
+
+for param, res in results.items():
+    if type(res).__name__ == "dict":
+        if res[isProportionalKEY]:
+            file.write(f"{param}: {res}\n")
+        if res[isZeroDerivationKEY]:
+            file.write(f"{param}: {res}\n")
+
+file.write("==================END of REPORT=======================\n")
+file.close()

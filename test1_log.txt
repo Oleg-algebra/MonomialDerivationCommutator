@@ -1,0 +1,11 @@
+Report of testing
+======================General information===================
+Number of tests: 10
+proportional: 1
+unproportional: 9
+zeroDerivaions: 0
+total time: 17.870699405670166
+avarage time: 1.7870699405670165
+======================Special cases=========================
+(6, 7, 5, 8): {'GIVEN_DERIVATION': [-8*x_0**6*x_1**7, 6*x_0**5*x_1**8], 'IsZeroDerivation': False, 'matrixDimension': (5, 5), 'COMMUTATOR': [-1.33333333333333*x_0**3*x_1**3, x_0**2*x_1**4], 'isProportional': True}
+==================END of REPORT=======================

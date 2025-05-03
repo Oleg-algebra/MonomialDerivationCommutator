@@ -77,7 +77,7 @@ class Commutator:
     def generateCommutator(self) -> Derivation:
         variables = self.derivation.variables
         N = max(abs(self.powers[0]-self.powers[1]),abs(self.powers[2]-self.powers[3])) + self.K
-        print("Matrix degree: ",N)
+
         Matrices = []
         symb = ["a","b"]
 
