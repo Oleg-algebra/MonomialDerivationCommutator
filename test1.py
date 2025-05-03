@@ -83,7 +83,7 @@ for i in range(tests_number):
     result[givenDerivationKEY] = [polynomial1.polynomial_symbolic, polynomial2.polynomial_symbolic]
 
 
-    der = Derivation([polynomial1,polynomial2],polynomial2.vars)
+    der = Derivation([polynomial1,polynomial2],monomail1.vars)
     K = 2
     commutator = Commutator(der,[*powers1,*powers2],K)
 
@@ -114,7 +114,8 @@ for i in range(tests_number):
 
 
     if isProportional:
-        proportionalCounter +=1
+        if zeroCounter != variables_number:
+            proportionalCounter +=1
     else:
         unproportionalCounter+=1
 
@@ -153,11 +154,15 @@ file.write(f"total time: {s}\n")
 file.write(f"avarage time: {s / tests_number}\n")
 file.write("======================Special cases=========================\n")
 
-
+file.write("=====================Proportional derivations==================\n")
 for param, res in results.items():
     if type(res).__name__ == "dict":
-        if res[isProportionalKEY]:
+        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
             file.write(f"{param}: {res}\n")
+
+file.write("=======================Zero derivations=========================\n")
+for param, res in results.items():
+    if type(res).__name__ == "dict":
         if res[isZeroDerivationKEY]:
             file.write(f"{param}: {res}\n")
 

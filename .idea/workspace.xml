@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="added functionality to write test report inside file">
+    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="added convertion of float coefficients to rational representation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" afterDir="false" />
     </list>
@@ -85,7 +85,7 @@
       <workItem from="1746180744772" duration="14916000" />
       <workItem from="1746200240739" duration="13352000" />
       <workItem from="1746268401501" duration="2237000" />
-      <workItem from="1746272099498" duration="1920000" />
+      <workItem from="1746272099498" duration="2294000" />
     </task>
     <task id="LOCAL-00001" summary="created class Polynomial; rewritten functions create_BIG_matrix, y_derivative, x_derivative, generateCommutator">
       <option name="closed" value="true" />
@@ -183,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746271996285</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added convertion of float coefficients to rational representation">
+      <option name="closed" value="true" />
+      <created>1746274399030</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746274399030</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +221,8 @@
     <MESSAGE value="implemented verification if derivations are proportional" />
     <MESSAGE value="complete one test" />
     <MESSAGE value="added functionality to write test report inside file" />
-    <option name="LAST_COMMIT_MESSAGE" value="added functionality to write test report inside file" />
+    <MESSAGE value="added convertion of float coefficients to rational representation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added convertion of float coefficients to rational representation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,7 +262,7 @@
     <SUITE FILE_PATH="coverage/code_comutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1745863771379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1746027510619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1746271877918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1746273944778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1746274338383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test.coverage" NAME="test Coverage Results" MODIFIED="1746021191127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
