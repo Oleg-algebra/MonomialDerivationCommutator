@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="divided proportional cases and zero-commutator cases" />
+    <list default="true" id="ab77c728-512a-4d43-a1aa-15f55cda640a" name="Changes" comment="cleaned a little code">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test1.py" beforeDir="false" afterPath="$PROJECT_DIR$/test1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test1_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1_log.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,28 +38,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.Commutator-search-symbolic.executor": "Run",
-    "Python.Commutator-search.executor": "Run",
-    "Python.CommutatorSearchSymbolic.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test1.executor": "Run",
-    "Python.testLoop.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Commutator-search-symbolic.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Commutator-search.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CommutatorSearchSymbolic.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testLoop.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -85,6 +89,9 @@
       <workItem from="1746268401501" duration="2237000" />
       <workItem from="1746272099498" duration="2886000" />
       <workItem from="1746275056531" duration="1389000" />
+      <workItem from="1746279469140" duration="1508000" />
+      <workItem from="1746281059747" duration="561000" />
+      <workItem from="1746282124076" duration="524000" />
     </task>
     <task id="LOCAL-00001" summary="created class Polynomial; rewritten functions create_BIG_matrix, y_derivative, x_derivative, generateCommutator">
       <option name="closed" value="true" />
@@ -198,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746275020061</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="cleaned a little code">
+      <option name="closed" value="true" />
+      <created>1746279394931</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746279394931</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,7 +245,8 @@
     <MESSAGE value="added functionality to write test report inside file" />
     <MESSAGE value="added convertion of float coefficients to rational representation" />
     <MESSAGE value="divided proportional cases and zero-commutator cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="divided proportional cases and zero-commutator cases" />
+    <MESSAGE value="cleaned a little code" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned a little code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -259,8 +275,8 @@
     <SUITE FILE_PATH="coverage/code_comutator$test.coverage" NAME="test Coverage Results" MODIFIED="1745835997765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/code_comutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1745863771379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1746027510619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1746278976104" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$testLoop.coverage" NAME="testLoop Coverage Results" MODIFIED="1746278248049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1746281064736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$testLoop.coverage" NAME="testLoop Coverage Results" MODIFIED="1746281262854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1746274338383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test.coverage" NAME="test Coverage Results" MODIFIED="1746021191127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

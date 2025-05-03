@@ -17,9 +17,7 @@ import time
 
 from CommutatorSearchSymbolic import *
 
-tests_number = 10
-true_counter = 0        # counts solutions that proportional to D
-false_counter = 0       #  counts solutions that are not proportional to D
+tests_number = 1000
 
 min_coeff = -10
 max_coeff = 10
@@ -43,11 +41,12 @@ matrixDimension  = "matrixDimension"
 
 s = 0
 K = 2
+counter = 0
 
-for i in range(tests_number):
+while counter < tests_number:
     start = time.time()
 
-    print("Testing " + str(i+1) + "/" + str(tests_number))
+    print("Testing " + str(counter+1) + "/" + str(tests_number))
     result = {}
     l = np.random.randint(0, max_power)
     k = l + 1
@@ -82,6 +81,7 @@ for i in range(tests_number):
     der = Derivation([polynomial1,polynomial2],monomail1.vars)
 
     commutator = Commutator(der,[*powers1,*powers2],K)
+    print(f'Matrix dimension: {commutator.unknown_derivation.polynomials[0].coefficients.shape}')
 
 
     result[isZeroDerivationKEY] = False
@@ -97,32 +97,36 @@ for i in range(tests_number):
         if res.polynomials[i].polynomial_symbolic.equals(0):
             zeroCounter += 1
     if zeroCounter == variables_number:
-        zeroDerivationCounter += 1
         result[isZeroDerivationKEY] = True
-
     else:
         result[isZeroDerivationKEY] = False
 
     result[commutatorKEY] = commutatorPolynomials
     result[isProportionalKEY] = isProportional
 
-
-    if isProportional:
-        if zeroCounter != variables_number:
-            proportionalCounter +=1
+    if (k,n,l,m) not in results.keys():
+        results[(k,n,l,m)] = result
+        counter += 1
     else:
-        unproportionalCounter+=1
-
-    results[(k,n,l,m)] = result
-
+        continue
+    print(len(results.keys()))
 
     end = time.time()
     s+=(end-start)
+
+for res in results.values():
+    if res[isZeroDerivationKEY]:
+        zeroDerivationCounter +=1
+    if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+        proportionalCounter += 1
+    if not res[isProportionalKEY] :
+        unproportionalCounter += 1
 
 results[proportionalKEY] = proportionalCounter
 results[unproportionalKEY] = unproportionalCounter
 results[zeroDerivationCounter] = zeroDerivationCounter
 
+print(len(results.keys()))
 
 print(f'proportional: {proportionalCounter}')
 print(f'unproportional: {unproportionalCounter}')
@@ -144,23 +148,30 @@ file.write(f"avarage time: {s / tests_number}\n")
 file.write("======================Special cases=========================\n")
 
 file.write("=====================Proportional derivations==================\n")
+count = 1
 for param, res in results.items():
     if type(res).__name__ == "dict":
         if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
-            file.write(f"{param}: {res}\n")
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
 file.write("=======================Zero derivations=========================\n")
+count = 1
 for param, res in results.items():
     if type(res).__name__ == "dict":
         if res[isZeroDerivationKEY]:
-            file.write(f"{param}: {res}\n")
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
 file.write("=======================Unproportional derivation=========================\n")
+count = 1
 for param, res in results.items():
     if type(res).__name__ == "dict":
         if not res[isProportionalKEY]:
-            file.write(f"{param}: {res}\n")
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
 
 file.write("==================END of REPORT=======================\n")
 file.close()
+
