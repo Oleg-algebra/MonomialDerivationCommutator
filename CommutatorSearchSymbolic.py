@@ -2,7 +2,7 @@ import sympy
 from numpy.polynomial.polynomial import Polynomial
 from scipy.differentiate import derivative
 from scipy.odr import polynomial
-from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, collect, Expr, solve, Poly, solve_linear, solve_undetermined_coeffs , N
+from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, collect, Expr, solve, Poly, solve_linear, solve_undetermined_coeffs , N, nsimplify
 import numpy as np
 
 class Monomial:
@@ -36,14 +36,14 @@ class Polynomial:
         self.coefficients = coefficients
         if poly_symbols is not None:
             self.polynomial_symbolic = poly_symbols
-        self.vars = []
+        self.poly_coeffs = []
         if vars is not None:
-            self.vars = vars
+            self.poly_coeffs = vars
         if coefficients is not None:
             for i in range(coefficients.shape[0]):
                 for j in range(coefficients.shape[1]):
                     var = symbols(f"a{i}_{j}")
-                    self.vars.append(var)
+                    self.poly_coeffs.append(var)
                     monomial = Monomial(n_var,coefficients[i,j],[i,j])
                     self.polynomial_symbolic += monomial.monomial_symbolic
 
@@ -153,18 +153,6 @@ class Commutator:
 
         equations = []
         variables = self.unknown_derivation.variables
-        # for poly in polys:
-        #     p = Poly(poly, variables)
-        #     for coeff in p.terms():
-        #         p1  = Poly(coeff[1],variables)
-        #         for t in p1.terms():
-        #             p2 = Poly(t[1],self.unknown_coeffients)
-        #             row = np.zeros((1,len(self.unknown_coeffients)))
-        #             for term in p2.terms():
-        #                 coeffs = np.array(term[0])
-        #                 scalar = float(N(term[1],chop = True))
-        #                 row= row + coeffs * scalar
-        #             equations.append(row[0])
 
         terms = []
         for poly in polys:
@@ -211,7 +199,8 @@ class Commutator:
         for poly in self.unknown_derivation.polynomials:
             for coeff in arbitrary_coefficients:
                 new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
-                poly.polynomial_symbolic = new_symbolic_expr
+                poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
+                # poly.polynomial_symbolic = new_symbolic_expr
 
         is_proportional = self.is_proportional()
         return self.unknown_derivation,is_proportional
@@ -241,17 +230,17 @@ class Commutator:
 
 
 if __name__ == "__main__":
-    powers1 = [0,1]
-    alpha = -1
-    powers2 = [1,0]
-    beta = 1
+    powers1 = [6,7]
+    alpha = -8
+    powers2 = [5,8]
+    beta = 6
     monomail1 = Monomial(2,alpha,powers1)
     monomail2 = Monomial(2,beta,powers2)
     polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
     polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
 
-    der = Derivation([polynomial1,polynomial2],polynomial2.vars)
-    K = 1
+    der = Derivation([polynomial1,polynomial2], polynomial2.poly_coeffs)
+    K = 2
     commutator = Commutator(der,[*powers1,*powers2],K)
 
     print("========Given derivation=======")
