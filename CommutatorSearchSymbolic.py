@@ -33,15 +33,15 @@ class Polynomial:
         self.coefficients = coefficients
         if poly_symbols is not None:
             self.polynomial_symbolic = poly_symbols
-        self.poly_coeffs = []
+        self.variables_polynom = []
         if vars is not None:
-            self.poly_coeffs = vars
+            self.variables_polynom = vars
         if coefficients is not None:
             for i in range(coefficients.shape[0]):
                 for j in range(coefficients.shape[1]):
-                    var = symbols(f"a{i}_{j}")
-                    self.poly_coeffs.append(var)
                     monomial = Monomial(n_var,coefficients[i,j],[i,j])
+                    if self.variables_polynom == []:
+                        self.variables_polynom = monomial.vars
                     self.polynomial_symbolic += monomial.monomial_symbolic
 
 
@@ -220,16 +220,25 @@ class Commutator:
 
 
 if __name__ == "__main__":
-    powers1 = [6,7]
+
+    k = 6
+    n= 7
+    l = 5
+    m = 8
+
     alpha = -8
-    powers2 = [5,8]
     beta = 6
+
+    powers1 = [k, n]
+    powers2 = [l, m]
+
     monomail1 = Monomial(2,alpha,powers1)
     monomail2 = Monomial(2,beta,powers2)
     polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
     polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
+    print(polynomial1.variables_polynom)
 
-    der = Derivation([polynomial1,polynomial2], polynomial2.poly_coeffs)
+    der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)
     K = 2
     commutator = Commutator(der,[*powers1,*powers2],K)
 

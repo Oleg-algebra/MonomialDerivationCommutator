@@ -9,8 +9,7 @@
 #       Q = sum_i,j = 0 ^ n b_ij*x^iy^j
 #     b_ij, a_ij  --- needs to be found
 #
-#
-# case 1: l=k and n = m
+
 import os
 import time
 from mpi4py import MPI
@@ -86,6 +85,9 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         # print(f"rank {rank} ---> Testing {str(counter+1) + "/" + str(tests_number)}" )
         result = {}
+
+        #   Determine parameters
+        #########################################################################
         l = np.random.randint(0, max_power)
         k = l + 1
         n = np.random.randint(0, max_power)
@@ -94,6 +96,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         a = np.random.randint(min_coeff, max_coeff)
         alpha = -a * m
         beta = a * k
+        ############################################################################
 
         powers1 = [k,n]
         powers2 = [l, m]
