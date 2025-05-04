@@ -35,7 +35,7 @@ def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
             return False
     return True
 
-tests_number = 1000
+tests_number = 100
 
 coeff_limit = 50
 min_coeff = -coeff_limit

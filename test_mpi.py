@@ -15,9 +15,13 @@ import os
 import time
 from mpi4py import MPI
 from tqdm import tqdm
+import sys
+from cases_functions import get_parameters
 
 
 from CommutatorSearchSymbolic import *
+
+sys.setrecursionlimit(10**6)
 
 def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
     polyDerivatives1 = []
@@ -41,6 +45,8 @@ comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 
+case = 1
+
 tests_number = 100
 
 tests_number = tests_number // size + 2
@@ -50,8 +56,10 @@ min_coeff = -coeff_limit
 max_coeff = coeff_limit
 
 max_power = 10
+min_power = 0
 
 K = 2
+max_K = 7
 
 variables_number = 2
 proportionalCounter = 0
@@ -77,6 +85,14 @@ time_exec_KEY = "time_elapsed"
 
 s = 0
 
+l = 0
+k = 0
+n = 0
+m = 0
+
+alpha = 0
+beta = 0
+
 counter = 0
 # print(f'rank: {rank} started testing')
 with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as pbar:
@@ -89,15 +105,22 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         #   Determine parameters
         #########################################################################
-        l = np.random.randint(0, max_power)
-        k = l + 1
-        n = np.random.randint(0, max_power)
-        m = n + 1
+        if K == 2:
+            # print("--->")
+            l = np.random.randint(0, max_power)
+            k = l
+            n = np.random.randint(0, max_power)
+            m = n
 
-        a = np.random.randint(min_coeff, max_coeff)
-        alpha = -a * m
-        beta = a * k
+            alpha = np.random.randint(min_coeff, max_coeff)
+            beta = np.random.randint(min_coeff, max_coeff)
+
+            l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+        else:
+            # print("--> increased K by 1")
+            pass
         ############################################################################
+
         powers1 = [k,n]
         powers2 = [l, m]
 
@@ -135,10 +158,16 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
+            if K < max_K:
+                K += 1
+                continue
             result[isZeroDerivationKEY] = True
+
         else:
+
             result[isZeroDerivationKEY] = False
 
+        result["K"] = K
         result[commutatorKEY] = commutatorPolynomials
         result[isProportionalKEY] = isProportional
 
@@ -149,6 +178,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         s+=time_elapsed
         results[(k, n, l, m, alpha, beta)] = result
+        K = 2
         counter += 1
         pbar.update(1)
 
@@ -157,6 +187,10 @@ comm.Barrier()
 results_container = comm.gather(results, root=0)
 comm.Barrier()
 if rank == 0:
+
+    average_K = 0
+    max_K = 2
+
     total_time = 0
     all_results = {}
     for dct in results_container:
@@ -164,6 +198,11 @@ if rank == 0:
             all_results[key] = dct[key]
 
     for res in all_results.values():
+
+        average_K += res["K"]
+        if res["K"] > max_K:
+            max_K = res["K"]
+
         if res[isZeroDerivationKEY]:
             zeroDerivationCounter += 1
         if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
@@ -176,6 +215,7 @@ if rank == 0:
             false_answers_counter += 1
         total_time += res[time_exec_KEY]
 
+    average_K = average_K / len(all_results.keys())
     average_time_per_process = total_time / size
 
     print("\n"+"="*100)
@@ -186,11 +226,13 @@ if rank == 0:
     print(f'proportional: {proportionalCounter}')
     print(f'unproportional: {unproportionalCounter}')
     print(f'zeroDerivations: {zeroDerivationCounter}')
+    print(f"Average K: {average_K}")
+    print(f"Max K: {max_K}")
     print("Average time per process: ", average_time_per_process)
     print("average time per test: ", total_time / (tests_number*size))
     print("="*100)
 
-    fileName = os.path.basename(__file__).split(".")[0]
+    fileName = f"case_{case}"
     file = open(fileName+"_log.txt", "w")
 
     file.write("Report of testing\n")
@@ -201,6 +243,8 @@ if rank == 0:
     file.write(f"zeroDerivations: {zeroDerivationCounter}\n")
     file.write(f"correct answers number: {correct_answers_counter}\n")
     file.write(f"false answers number: {false_answers_counter}\n")
+    file.write(f"Average K: {average_K}")
+    file.write(f"Max K: {max_K}")
     file.write(f"Average time per process: {average_time_per_process}")
     file.write(f"average time per test: {total_time / (tests_number*size)}\n")
     file.write("======================Special cases=========================\n")

@@ -315,6 +315,8 @@ class MonomialCommutator:
         # print(vars)
         x = solve_linear_system(A,*vars)
         print(x)
+        print(len(x.keys()))
+        print(P.coefficients.shape)
         # print(A.shape)
         # print(len(vars))
 
@@ -326,8 +328,8 @@ def __str__(self):
 
 
 if __name__ == "__main__":
-    component1 = Monomial(2,2,[2,3])
-    component2 = Monomial(2,1,[3,4])
-    moComm = MonomialCommutator(2,[component1,component2],2,5)
+    component1 = Monomial(2,-8,[6,7])
+    component2 = Monomial(2,6,[5,8])
+    moComm = MonomialCommutator(2,[component1,component2],1,2)
 
     moComm.commutator_search()
