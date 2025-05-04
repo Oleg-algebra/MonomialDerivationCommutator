@@ -1,0 +1,197 @@
+
+#####################################################################
+1 case: l=k, n = m
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l
+n = np.random.randint(0, max_power)
+m = n
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+2 case: l=k, n = m - 1
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l
+m = np.random.randint(1, max_power)
+n = m - 1
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+3 case: l=k, n < m - 1
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l
+m = np.random.randint(2, max_power)
+n = np.random.randint(0, m-1)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+4 case: l=k, n > m
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l
+n = np.random.randint(1, max_power)
+m = np.random.randint(0, n)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+5 case: l=k-1, n = m
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l + 1
+
+m = np.random.randint(0, max_power)
+n = m
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+6 case: l=k-1, n = m - 1
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l + 1
+
+m = np.random.randint(1, max_power)
+n = m - 1
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+7 case: l=k-1, n < m - 1
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l + 1
+
+m = np.random.randint(2, max_power)
+n = np.random.randint(0, m-1)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+8 case: l=k-1, n > m
+#####################################################################
+l = np.random.randint(0, max_power)
+k = l + 1
+
+n = np.random.randint(1, max_power)
+m = np.random.randint(0, n)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+9 case: l<k-1, n = m
+#####################################################################
+k = np.random.randint(2, max_power)
+l = np.random.randint(0,k-1)
+
+m = np.random.randint(0, max_power)
+n = m
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+10 case: l<k-1, n = m - 1
+#####################################################################
+k = np.random.randint(2, max_power)
+l = np.random.randint(0,k-1)
+
+m = np.random.randint(1, max_power)
+n = m - 1
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+11 case: l<k-1, n < m - 1
+#####################################################################
+k = np.random.randint(2, max_power)
+l = np.random.randint(0,k-1)
+
+m = np.random.randint(2, max_power)
+n = np.random.randint(0, m-1)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+12 case: l<k-1, n > m
+#####################################################################
+k = np.random.randint(2, max_power)
+l = np.random.randint(0,k-1)
+
+n = np.random.randint(1, max_power)
+m = np.random.randint(0, n)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+#####################################################################
+13 case: l>k, n = m
+#####################################################################
+l = np.random.randint(1, max_power)
+k = np.random.randint(0,l)
+
+m = np.random.randint(0, max_power)
+n = m
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+14 case: l>k, n = m - 1
+#####################################################################
+l = np.random.randint(1, max_power)
+k = np.random.randint(0,l)
+
+m = np.random.randint(1, max_power)
+n = m - 1
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+15 case: l>k, n < m - 1
+#####################################################################
+l = np.random.randint(1, max_power)
+k = np.random.randint(0,l)
+
+m = np.random.randint(2, max_power)
+n = np.random.randint(0, m-1)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
+
+
+#####################################################################
+16 case: l>k, n > m
+#####################################################################
+l = np.random.randint(1, max_power)
+k = np.random.randint(0,l)
+
+n = np.random.randint(1, max_power)
+m = np.random.randint(0, n)
+
+alpha = np.random.randint(min_coeff, max_coeff)
+beta = np.random.randint(min_coeff, max_coeff)
