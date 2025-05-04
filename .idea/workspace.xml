@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/MonomialDerivationCommutator.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mpi_example.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test1_mpi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/code-comutator.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test1.py" beforeDir="false" afterPath="$PROJECT_DIR$/test1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test1_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1_log.txt" afterDir="false" />
+    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="added mpi implementation">
+      <change beforePath="$PROJECT_DIR$/test1_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/test1_mpi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,12 +65,36 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746299530142</updated>
-      <workItem from="1746299532105" duration="5783000" />
+      <workItem from="1746299532105" duration="6796000" />
     </task>
+    <task id="LOCAL-00001" summary="added mpi implementation">
+      <option name="closed" value="true" />
+      <created>1746305527049</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746305527049</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added mpi implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added mpi implementation" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1_mpi.coverage" NAME="test1_mpi Coverage Results" MODIFIED="1746305215984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

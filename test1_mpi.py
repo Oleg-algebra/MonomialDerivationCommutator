@@ -41,7 +41,7 @@ comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-tests_number = 1000
+tests_number = 100
 
 tests_number = tests_number // size + 2
 
@@ -63,15 +63,17 @@ false_answers_counter = 0
 results = {}
 givenDerivationKEY = "GIVEN_DERIVATION"
 commutatorKEY = "COMMUTATOR"
-proportionalKEY = "proportionalCounter"
-unproportionalKEY = "unproportionalCounter"
 isProportionalKEY = "isProportional"
-zeroDerivaionsKEY = "zeroDerivaions"
 isZeroDerivationKEY = "IsZeroDerivation"
 matrixDimension  = "matrixDimension"
 isSolutionCorrectKey = "isSolutionCorrect"
+
 correctAnswersNumberKEY = "correctAnswersNumber"
 falseAnswersNumberKey = "falseAnswersNumber"
+proportionalKEY = "proportionalCounter"
+unproportionalKEY = "unproportionalCounter"
+zeroDerivaionsKEY = "zeroDerivaionsCounter"
+time_exec_KEY = "time_elapsed"
 
 s = 0
 
@@ -107,32 +109,22 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
         polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
 
-
-
         result[givenDerivationKEY] = [polynomial1.polynomial_symbolic, polynomial2.polynomial_symbolic]
-
 
         der = Derivation([polynomial1,polynomial2],monomail1.vars)
 
         commutator = Commutator(der,[*powers1,*powers2],K)
-        # print(f'Matrix dimension: {commutator.unknown_derivation.polynomials[0].coefficients.shape}')
-
 
         result[isZeroDerivationKEY] = False
-
 
         res, isProportional = commutator.get_commutator()
         result[matrixDimension] = commutator.unknown_derivation.polynomials[0].coefficients.shape
         commutatorPolynomials = []
 
         if isSolution(der,res):
-            correct_answers_counter += 1
             result[isSolutionCorrectKey] = True
-            # print("True")
         else:
-            false_answers_counter += 1
             result[isSolutionCorrectKey] = False
-            # print("False")
 
         zeroCounter = 0
         for i in range(len(res.polynomials)):
@@ -148,115 +140,108 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         result[isProportionalKEY] = isProportional
 
 
-        results[(k,n,l,m,alpha,beta)] = result
+        end = time.time()
+        time_elapsed = end - start
+        result[time_exec_KEY] = time_elapsed
+
+        s+=time_elapsed
+        results[(k, n, l, m, alpha, beta)] = result
         counter += 1
         pbar.update(1)
 
-        end = time.time()
-        s+=(end-start)
 
-
-
-for res in results.values():
-    if res[isZeroDerivationKEY]:
-        zeroDerivationCounter +=1
-    if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
-        proportionalCounter += 1
-    if not res[isProportionalKEY] :
-        unproportionalCounter += 1
-
-results[correctAnswersNumberKEY] = correct_answers_counter
-results[falseAnswersNumberKey] = false_answers_counter
-results[proportionalKEY] = proportionalCounter
-results[unproportionalKEY] = unproportionalCounter
-results[zeroDerivationCounter] = zeroDerivationCounter
-results["Time"] = s
-
-# print(f"rank: {rank} finished testing")
-# print(f"rank: {rank} finished testing {str(counter) + "/" + str(tests_number)}" )
 comm.Barrier()
 results_container = comm.gather(results, root=0)
 comm.Barrier()
 if rank == 0:
-    print()
-    print(f"Total number of tests: {tests_number*size}")
-    print(f"rank: {rank} gathering results")
+    total_time = 0
     all_results = {}
     for dct in results_container:
         for key in dct.keys():
-            if type(dct[key]) == dict:
-                all_results[key] = dct[key]
-            else:
-                if key not in all_results.keys():
-                    all_results[key] = dct[key]
-                else:
-                    all_results[key] += dct[key]
-    print(len(all_results.keys()))
+            all_results[key] = dct[key]
 
-    print(f'proportional: {all_results[proportionalKEY]}')
-    print(f'unproportional: {all_results[unproportionalKEY]}')
-    print(f'zeroDerivaions: {all_results[zeroDerivationCounter]}')
-    print("Total time: ", all_results["Time"])
-    print("avarage time: ", all_results["Time"] / (tests_number*size))
+    for res in all_results.values():
+        if res[isZeroDerivationKEY]:
+            zeroDerivationCounter += 1
+        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+            proportionalCounter += 1
+        if not res[isProportionalKEY]:
+            unproportionalCounter += 1
+        if res[isSolutionCorrectKey]:
+            correct_answers_counter += 1
+        else:
+            false_answers_counter += 1
+        total_time += res[time_exec_KEY]
+
+    average_time_per_process = total_time / size
+
+    print("\n"+"="*100)
+    print(f"Total number of different cases: {len(all_results.keys())}")
+    print(f"rank: {rank} gathering results")
+    # print(results_container)
+
+    print(f'proportional: {proportionalCounter}')
+    print(f'unproportional: {unproportionalCounter}')
+    print(f'zeroDerivations: {zeroDerivationCounter}')
+    print("Average time per process: ", average_time_per_process)
+    print("average time per test: ", total_time / (tests_number*size))
+    print("="*100)
 
     fileName = os.path.basename(__file__).split(".")[0]
     file = open(fileName+"_log.txt", "w")
 
     file.write("Report of testing\n")
     file.write("======================General information===================\n")
-    file.write(f"Number of tests: {tests_number*size}\n")
-    file.write(f"proportional: {all_results[proportionalKEY]}\n")
-    file.write(f"unproportional: {all_results[unproportionalKEY]}\n")
-    file.write(f"zeroDerivaions: {all_results[zeroDerivationCounter]}\n")
-    file.write(f"correct answers number: {all_results[correctAnswersNumberKEY]}\n")
-    file.write(f"false answers number: {all_results[falseAnswersNumberKey]}\n")
-    file.write(f"total time: {all_results["Time"]}\n")
-    file.write(f"avarage time: {all_results["Time"] / (tests_number*size)}\n")
+    file.write(f"Total number of different cases: {len(all_results.keys())}\n")
+    file.write(f"proportional: {proportionalCounter}\n")
+    file.write(f"unproportional: {unproportionalCounter}\n")
+    file.write(f"zeroDerivations: {zeroDerivationCounter}\n")
+    file.write(f"correct answers number: {correct_answers_counter}\n")
+    file.write(f"false answers number: {false_answers_counter}\n")
+    file.write(f"Average time per process: {average_time_per_process}")
+    file.write(f"average time per test: {total_time / (tests_number*size)}\n")
     file.write("======================Special cases=========================\n")
 
     file.write("=====================Proportional derivations==================\n")
     count = 1
     for param, res in all_results.items():
-        if type(res).__name__ == "dict":
-            if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
-                file.write(f"{count}):  {param}: {res}\n")
-                count += 1
+
+        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
     file.write("=======================Zero derivations=========================\n")
     count = 1
     for param, res in all_results.items():
-        if type(res).__name__ == "dict":
-            if res[isZeroDerivationKEY]:
-                file.write(f"{count}):  {param}: {res}\n")
-                count += 1
+        if res[isZeroDerivationKEY]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
     file.write("=======================Unproportional derivation=========================\n")
     count = 1
     for param, res in all_results.items():
-        if type(res).__name__ == "dict":
-            if not res[isProportionalKEY]:
-                file.write(f"{count}):  {param}: {res}\n")
-                count += 1
+        if not res[isProportionalKEY]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
     file.write("=======================Correct answers=========================\n")
     count = 1
     for param, res in all_results.items():
-        if type(res).__name__ == "dict":
-            if res[isSolutionCorrectKey]:
-                file.write(f"{count}):  {param}: {res}\n")
-                count += 1
+        if res[isSolutionCorrectKey]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
 
     file.write("=======================False answers=========================\n")
     count = 1
     for param, res in all_results.items():
-        if type(res).__name__ == "dict":
-            if not res[isSolutionCorrectKey]:
-                file.write(f"{count}):  {param}: {res}\n")
-                count += 1
+        if not res[isSolutionCorrectKey]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
 
 
 
     file.write("==================END of REPORT=======================\n")
     file.close()
+
 
