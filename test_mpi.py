@@ -47,9 +47,9 @@ rank = comm.Get_rank()
 
 case = 1
 
-tests_number = 100
+total_tests_number = 100
 
-tests_number = tests_number // size + 2
+tests_number = total_tests_number // size + 2
 
 coeff_limit = 50
 min_coeff = -coeff_limit
@@ -115,7 +115,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             alpha = np.random.randint(min_coeff, max_coeff)
             beta = np.random.randint(min_coeff, max_coeff)
 
-            l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+            # l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
         else:
             # print("--> increased K by 1")
             pass

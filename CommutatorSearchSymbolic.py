@@ -221,13 +221,13 @@ class Commutator:
 
 if __name__ == "__main__":
 
-    k = 6
-    n= 7
-    l = 5
-    m = 8
+    k = 0
+    n= 6
+    l = 2
+    m = 5
 
-    alpha = -8
-    beta = 6
+    alpha = 47
+    beta = -23
 
     powers1 = [k, n]
     powers2 = [l, m]
