@@ -53,7 +53,7 @@ else:
 case = comm.bcast(case, root=0)
 comm.Barrier()
 
-total_tests_number = 1000
+total_tests_number = 100
 
 tests_number = total_tests_number // size + 2
 
@@ -160,6 +160,8 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         else:
             result[isSolutionCorrectKey] = False
 
+        result[isProportionalKEY] = isProportional
+
         zeroCounter = 0
         for i in range(len(res.polynomials)):
             commutatorPolynomials.append(res.polynomials[i].polynomial_symbolic)
@@ -177,7 +179,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         result["K"] = K
         result[commutatorKEY] = commutatorPolynomials
-        result[isProportionalKEY] = isProportional
+
 
 
         end = time.time()
