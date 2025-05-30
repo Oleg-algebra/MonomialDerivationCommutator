@@ -47,9 +47,9 @@ rank = comm.Get_rank()
 
 case = 1
 
-total_tests_number = 100
+tests_number = 100
 
-tests_number = total_tests_number // size + 2
+tests_number = tests_number // size + 2
 
 coeff_limit = 50
 min_coeff = -coeff_limit
@@ -107,9 +107,10 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         #########################################################################
         if K == 2:
             # print("--->")
-            l = np.random.randint(0, max_power)
+            l = np.random.randint(1, max_power)
+            l=0
             k = l
-            n = np.random.randint(0, max_power)
+            n = np.random.randint(1, max_power)
             m = n
 
             alpha = np.random.randint(min_coeff, max_coeff)
@@ -158,9 +159,9 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
-            if K < max_K:
-                K += 1
-                continue
+            # if K < max_K:
+            #     K += 1
+            #     continue
             result[isZeroDerivationKEY] = True
 
         else:
@@ -243,9 +244,9 @@ if rank == 0:
     file.write(f"zeroDerivations: {zeroDerivationCounter}\n")
     file.write(f"correct answers number: {correct_answers_counter}\n")
     file.write(f"false answers number: {false_answers_counter}\n")
-    file.write(f"Average K: {average_K}")
-    file.write(f"Max K: {max_K}")
-    file.write(f"Average time per process: {average_time_per_process}")
+    file.write(f"Average K: {average_K}\n")
+    file.write(f"Max K: {max_K}\n")
+    file.write(f"Average time per process: {average_time_per_process}\n")
     file.write(f"average time per test: {total_time / (tests_number*size)}\n")
     file.write("======================Special cases=========================\n")
 

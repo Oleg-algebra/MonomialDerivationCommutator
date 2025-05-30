@@ -188,6 +188,7 @@ class Commutator:
 
         for poly in self.unknown_derivation.polynomials:
             for coeff in arbitrary_coefficients:
+                number = np.random.randint(0,2)
                 new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
                 poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
                 # poly.polynomial_symbolic = new_symbolic_expr
@@ -218,40 +219,24 @@ class Commutator:
         return True
 
 
+    def isSolution(self,derivation1: Derivation,derivation2: Derivation) -> bool:
+        polyDerivatives1 = []
+        polyDerivatives2 = []
 
-if __name__ == "__main__":
+        for poly in derivation1.polynomials:
+            der = derivation2.take_derivative(poly.polynomial_symbolic)
+            polyDerivatives1.append(der)
 
-    k = 0
-    n= 6
-    l = 2
-    m = 5
+        for poly in derivation2.polynomials:
+            der = derivation1.take_derivative(poly.polynomial_symbolic)
+            polyDerivatives2.append(der)
 
-    alpha = 47
-    beta = -23
+        for i in range(len(polyDerivatives1)):
+            difference = polyDerivatives1[i] - polyDerivatives2[i]
+            if not difference.equals(0):
+                return False
+        return True
 
-    powers1 = [k, n]
-    powers2 = [l, m]
-
-    monomail1 = Monomial(2,alpha,powers1)
-    monomail2 = Monomial(2,beta,powers2)
-    polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
-    polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
-    print(polynomial1.variables_polynom)
-
-    der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)
-    K = 2
-    commutator = Commutator(der,[*powers1,*powers2],K)
-
-    print("========Given derivation=======")
-    for i in range(len(der.polynomials)):
-        print(f'poly {i}: {der.polynomials[i].polynomial_symbolic}')
-
-    print("==========Unknown derivation=======")
-    res, isProportional = commutator.get_commutator()
-    for i in range(len(res.polynomials)):
-        print(f'poly {i}: {simplify(res.polynomials[i].polynomial_symbolic)}' )
-
-    print(f"proportional: {isProportional}")
 
 
 
