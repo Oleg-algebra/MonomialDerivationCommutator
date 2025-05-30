@@ -45,9 +45,15 @@ comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-case = 1
+comm.Barrier()
+if rank == 0:
+    case = int(input("Enter the case number: "))
+else:
+    case = None
+case = comm.bcast(case, root=0)
+comm.Barrier()
 
-total_tests_number = 100
+total_tests_number = 1000
 
 tests_number = total_tests_number // size + 2
 
@@ -66,7 +72,7 @@ proportionalCounter = 0
 unproportionalCounter = 0
 zeroDerivationCounter = 0
 correct_answers_counter = 0
-false_answers_counter = 0
+incorrect_answers_counter = 0
 
 results = {}
 givenDerivationKEY = "GIVEN_DERIVATION"
@@ -82,6 +88,8 @@ proportionalKEY = "proportionalCounter"
 unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
+
+isSearchNonZero = False
 
 s = 0
 
@@ -107,15 +115,15 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         #########################################################################
         if K == 2:
             # print("--->")
-            l = np.random.randint(0, max_power)
-            k = l
-            n = np.random.randint(0, max_power)
-            m = n
+            # l = np.random.randint(0, max_power)
+            # k = l
+            # n = np.random.randint(0, max_power)
+            # m = n
+            #
+            # alpha = np.random.randint(min_coeff, max_coeff)
+            # beta = np.random.randint(min_coeff, max_coeff)
 
-            alpha = np.random.randint(min_coeff, max_coeff)
-            beta = np.random.randint(min_coeff, max_coeff)
-
-            # l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+            l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
         else:
             # print("--> increased K by 1")
             pass
@@ -158,7 +166,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
-            if K < max_K:
+            if K < max_K and isSearchNonZero:
                 K += 1
                 continue
             result[isZeroDerivationKEY] = True
@@ -212,7 +220,7 @@ if rank == 0:
         if res[isSolutionCorrectKey]:
             correct_answers_counter += 1
         else:
-            false_answers_counter += 1
+            incorrect_answers_counter += 1
         total_time += res[time_exec_KEY]
 
     average_K = average_K / len(all_results.keys())
@@ -227,7 +235,7 @@ if rank == 0:
     print(f'unproportional: {unproportionalCounter}')
     print(f'zeroDerivations: {zeroDerivationCounter}')
     print(f"correct answers number: {correct_answers_counter}")
-    print(f"false answers number: {false_answers_counter}")
+    print(f"false answers number: {incorrect_answers_counter}")
     print(f"Average K: {average_K}")
     print(f"Max K: {max_K}")
     print("Average time per process: ", average_time_per_process)
@@ -244,18 +252,17 @@ if rank == 0:
     file.write(f"unproportional: {unproportionalCounter}\n")
     file.write(f"zeroDerivations: {zeroDerivationCounter}\n")
     file.write(f"correct answers number: {correct_answers_counter}\n")
-    file.write(f"false answers number: {false_answers_counter}\n")
+    file.write(f"incorrect answers number: {incorrect_answers_counter}\n")
     file.write(f"Average K: {average_K}\n")
     file.write(f"Max K: {max_K}\n")
     file.write(f"Average time per process: {average_time_per_process}\n")
     file.write(f"average time per test: {total_time / (tests_number*size)}\n")
     file.write("======================Special cases=========================\n")
 
-    file.write("=====================Proportional derivations==================\n")
+    file.write("=======================Incorrect answers=========================\n")
     count = 1
     for param, res in all_results.items():
-
-        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+        if not res[isSolutionCorrectKey]:
             file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
@@ -266,12 +273,21 @@ if rank == 0:
             file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
-    file.write("=======================Unproportional derivation=========================\n")
+    file.write("=======================Unproportional derivations=========================\n")
     count = 1
     for param, res in all_results.items():
         if not res[isProportionalKEY]:
             file.write(f"{count}):  {param}: {res}\n")
             count += 1
+
+    file.write("=====================Proportional derivations==================\n")
+    count = 1
+    for param, res in all_results.items():
+
+        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+            file.write(f"{count}):  {param}: {res}\n")
+            count += 1
+
 
     file.write("=======================Correct answers=========================\n")
     count = 1
@@ -280,13 +296,6 @@ if rank == 0:
             file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
-
-    file.write("=======================False answers=========================\n")
-    count = 1
-    for param, res in all_results.items():
-        if not res[isSolutionCorrectKey]:
-            file.write(f"{count}):  {param}: {res}\n")
-            count += 1
 
 
 
