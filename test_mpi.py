@@ -47,15 +47,15 @@ rank = comm.Get_rank()
 
 case = 1
 
-tests_number = 100
+total_tests_number = 100
 
-tests_number = tests_number // size + 2
+tests_number = total_tests_number // size + 2
 
 coeff_limit = 50
 min_coeff = -coeff_limit
 max_coeff = coeff_limit
 
-max_power = 10
+max_power = 11
 min_power = 0
 
 K = 2
@@ -107,10 +107,9 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         #########################################################################
         if K == 2:
             # print("--->")
-            l = np.random.randint(1, max_power)
-            l=0
+            l = np.random.randint(0, max_power)
             k = l
-            n = np.random.randint(1, max_power)
+            n = np.random.randint(0, max_power)
             m = n
 
             alpha = np.random.randint(min_coeff, max_coeff)
@@ -159,9 +158,9 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
-            # if K < max_K:
-            #     K += 1
-            #     continue
+            if K < max_K:
+                K += 1
+                continue
             result[isZeroDerivationKEY] = True
 
         else:
@@ -227,6 +226,8 @@ if rank == 0:
     print(f'proportional: {proportionalCounter}')
     print(f'unproportional: {unproportionalCounter}')
     print(f'zeroDerivations: {zeroDerivationCounter}')
+    print(f"correct answers number: {correct_answers_counter}")
+    print(f"false answers number: {false_answers_counter}")
     print(f"Average K: {average_K}")
     print(f"Max K: {max_K}")
     print("Average time per process: ", average_time_per_process)

@@ -18,7 +18,7 @@ polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2
 print(polynomial1.variables_polynom)
 
 der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)
-K = 1
+K = 0
 commutator = Commutator(der,[*powers1,*powers2],K)
 
 print("========Given derivation=======")

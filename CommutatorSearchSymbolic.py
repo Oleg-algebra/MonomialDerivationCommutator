@@ -67,6 +67,10 @@ class Commutator:
         self.unknown_coeffients = []
         self.K = K
         self.unknown_derivation = self.generateCommutator()
+        self.searchCommutator = {
+            "general" : self.generalSolver,
+            "linear" : self.linearSolver
+        }
 
     def generateCommutator(self) -> Derivation:
         variables = self.derivation.variables
@@ -94,7 +98,7 @@ class Commutator:
 
         return der_unknown
 
-    def searchCommutator1(self):
+    def generalSolver(self):
 
         # for poly in self.unknown_derivation.polynomials:
         #     print(f'unknown polynomial: {poly.polynomial_symbolic}')
@@ -126,7 +130,7 @@ class Commutator:
 
         return res
 
-    def searchCommutator2(self):
+    def linearSolver(self):
 
 
         derivatives1 = []
@@ -169,9 +173,9 @@ class Commutator:
 
         return res
 
-    def get_commutator(self):
+    def get_commutator(self,solver = "general"):
 
-        coefficients = self.searchCommutator2()
+        coefficients = self.searchCommutator[solver]()
 
         arbitrary_coefficients = []
         for coeff in self.unknown_coeffients:
@@ -188,7 +192,7 @@ class Commutator:
 
         for poly in self.unknown_derivation.polynomials:
             for coeff in arbitrary_coefficients:
-                number = np.random.randint(0,2)
+                number = np.random.randint(1,10)
                 new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
                 poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
                 # poly.polynomial_symbolic = new_symbolic_expr
