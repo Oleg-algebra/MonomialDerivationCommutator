@@ -23,24 +23,6 @@ from CommutatorSearchSymbolic import *
 
 sys.setrecursionlimit(10**6)
 
-def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
-    polyDerivatives1 = []
-    polyDerivatives2 = []
-
-    for poly in derivation1.polynomials:
-        der = derivation2.take_derivative(poly.polynomial_symbolic)
-        polyDerivatives1.append(der)
-
-    for poly in derivation2.polynomials:
-        der = derivation1.take_derivative(poly.polynomial_symbolic)
-        polyDerivatives2.append(der)
-
-    for i in range(len(polyDerivatives1)):
-        difference = polyDerivatives1[i] - polyDerivatives2[i]
-        if not difference.equals(0):
-            return False
-    return True
-
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
@@ -48,12 +30,15 @@ rank = comm.Get_rank()
 comm.Barrier()
 if rank == 0:
     case = int(input("Enter the case number: "))
+    total_tests_number = int(input("Enter the total number of tests: "))
 else:
+    total_tests_number = None
     case = None
 case = comm.bcast(case, root=0)
+total_tests_number = comm.bcast(total_tests_number, root=0)
 comm.Barrier()
 
-total_tests_number = 100
+
 
 tests_number = total_tests_number // size + 2
 
@@ -65,7 +50,7 @@ max_power = 11
 min_power = 0
 
 K = 2
-max_K = 7
+max_K = 10
 
 variables_number = 2
 proportionalCounter = 0
@@ -89,7 +74,7 @@ unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
-isSearchNonZero = False
+isSearchNonZero = True
 
 s = 0
 
@@ -102,8 +87,9 @@ alpha = 0
 beta = 0
 
 counter = 0
+strategy = "special"
 # print(f'rank: {rank} started testing')
-with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as pbar:
+with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disable=False) as pbar:
     while counter < tests_number:
 
         start = time.time()
@@ -124,6 +110,11 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             # beta = np.random.randint(min_coeff, max_coeff)
 
             l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+
+            # if alpha*beta == 0:
+            #     continue
+            if alpha**2 + beta**2 == 0:
+                continue
         else:
             # print("--> increased K by 1")
             pass
@@ -132,8 +123,6 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         powers1 = [k,n]
         powers2 = [l, m]
 
-        if alpha ** 2 + beta **2 == 0:
-            continue
 
         if (k,n,l,m,alpha,beta) in results.keys():
             continue
@@ -147,7 +136,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         der = Derivation([polynomial1,polynomial2],monomail1.vars)
 
-        commutator = Commutator(der,[*powers1,*powers2],K)
+        commutator = Commutator(der,[*powers1,*powers2],K,strategy=strategy)
 
         result[isZeroDerivationKEY] = False
 
@@ -155,7 +144,11 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
         result[matrixDimension] = commutator.unknown_derivation.polynomials[0].coefficients.shape
         commutatorPolynomials = []
 
-        if isSolution(der,res):
+        # if isProportional and K < max_K:
+        #     K+=1
+        #     continue
+
+        if commutator.isSolution(der,res):
             result[isSolutionCorrectKey] = True
         else:
             result[isSolutionCorrectKey] = False
@@ -168,9 +161,18 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
-            if K < max_K and isSearchNonZero:
-                K += 1
-                continue
+            if isSearchNonZero:
+                if K < max_K:
+                    # print("Increase K")
+                    K += 1
+                    continue
+                else:
+                    # print("Max K reached")
+                    if strategy == "special":
+                        # print("change strategy")
+                        strategy = "general"
+                        K = 2
+                        continue
             result[isZeroDerivationKEY] = True
 
         else:
@@ -188,6 +190,8 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False) as 
 
         s+=time_elapsed
         results[(k, n, l, m, alpha, beta)] = result
+
+        strategy = "special"
         K = 2
         counter += 1
         pbar.update(1)
@@ -237,7 +241,7 @@ if rank == 0:
     print(f'unproportional: {unproportionalCounter}')
     print(f'zeroDerivations: {zeroDerivationCounter}')
     print(f"correct answers number: {correct_answers_counter}")
-    print(f"false answers number: {incorrect_answers_counter}")
+    print(f"incorrect answers number: {incorrect_answers_counter}")
     print(f"Average K: {average_K}")
     print(f"Max K: {max_K}")
     print("Average time per process: ", average_time_per_process)

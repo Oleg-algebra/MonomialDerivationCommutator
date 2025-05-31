@@ -61,21 +61,35 @@ class Derivation:
 
 class Commutator:
 
-    def __init__(self, derivation: Derivation,powers: list,K):
+    def __init__(self, derivation: Derivation,powers: list,K, strategy: str = "special"):
         self.derivation = derivation
         self.powers = powers
         self.unknown_coeffients = []
         self.K = K
+        self.strategy = strategy
         self.unknown_derivation = self.generateCommutator()
         self.searchCommutator = {
             "general" : self.generalSolver,
             "linear" : self.linearSolver
         }
 
+
+    def specialStrategy(self):
+        return max(abs(self.powers[0]-self.powers[1]),abs(self.powers[2]-self.powers[3])) + self.K
+
+    def generalStrategy(self):
+        return max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
+
+    def getDegree(self,strategy = "special"):
+        strategies = {
+            "special" : self.specialStrategy,
+            "general" : self.generalStrategy
+        }
+        return strategies[strategy]()
+
     def generateCommutator(self) -> Derivation:
         variables = self.derivation.variables
-        N = max(abs(self.powers[0]-self.powers[1]),abs(self.powers[2]-self.powers[3])) + self.K
-        N = max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
+        N = self.getDegree(strategy=self.strategy)
 
         Matrices = []
         symb = ["a","b"]
@@ -198,7 +212,8 @@ class Commutator:
                 poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
                 # poly.polynomial_symbolic = new_symbolic_expr
 
-        is_proportional = self.is_proportional()
+        # is_proportional = self.is_proportional()
+        is_proportional = self.is_proportional2()
         return self.unknown_derivation,is_proportional
 
 
@@ -222,6 +237,15 @@ class Commutator:
                 return False
 
         return True
+
+    def is_proportional2(self):
+        poly_unknown = self.unknown_derivation.polynomials
+        poly_given = self.derivation.polynomials
+
+        prop = poly_unknown[0].polynomial_symbolic*poly_given[1].polynomial_symbolic-poly_unknown[1].polynomial_symbolic*poly_given[0].polynomial_symbolic
+        prop = simplify(prop)
+        # print(f"proportion: {prop}")
+        return prop.equals(0)
 
 
     def isSolution(self,derivation1: Derivation,derivation2: Derivation) -> bool:

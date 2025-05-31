@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="modified pattern of report output">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/case_1_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_1_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/case_2_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_2_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cases_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cases_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_mpi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,31 +36,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.Commutator-search.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CommutatorSearchSymbolic.executor&quot;: &quot;Run&quot;,
-    &quot;Python.matMul_V1_1.executor&quot;: &quot;Run&quot;,
-    &quot;Python.single_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test1_mpi.executor&quot;: &quot;Run&quot;,
-    &quot;Python.testLoop.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck&quot;,
-    &quot;Shell Script.jobscript.sh.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Commutator-search.executor": "Run",
+    "Python.CommutatorSearchSymbolic.executor": "Debug",
+    "Python.matMul_V1_1.executor": "Run",
+    "Python.single_test.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test1_mpi.executor": "Run",
+    "Python.testLoop.executor": "Run",
+    "Python.test_mpi.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHELLCHECK.PATH": "/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck",
+    "Shell Script.jobscript.sh.executor": "Run",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -88,7 +93,10 @@
       <workItem from="1748543452160" duration="810000" />
       <workItem from="1748550970316" duration="393000" />
       <workItem from="1748608227950" duration="4009000" />
-      <workItem from="1748622149644" duration="6379000" />
+      <workItem from="1748622149644" duration="7690000" />
+      <workItem from="1748631611851" duration="5360000" />
+      <workItem from="1748691936191" duration="2084000" />
+      <workItem from="1748694040052" duration="20616000" />
     </task>
     <task id="LOCAL-00001" summary="added mpi implementation">
       <option name="closed" value="true" />
@@ -210,7 +218,39 @@
       <option name="project" value="LOCAL" />
       <updated>1748629241029</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="modified pattern of report output">
+      <option name="closed" value="true" />
+      <created>1748629271433</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1748629271433</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added requirements.txt">
+      <option name="closed" value="true" />
+      <created>1748629487712</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1748629487712</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added file with code for special cases">
+      <option name="closed" value="true" />
+      <created>1748629550568</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1748629550568</updated>
+    </task>
+    <task id="LOCAL-00019" summary="modified pattern of report output">
+      <option name="closed" value="true" />
+      <created>1748630539339</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748630539339</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +280,8 @@
     <MESSAGE value="added option to choose solver" />
     <MESSAGE value="modified single test implementation to search non-zero commutator" />
     <MESSAGE value="modified process of choosing degree of unknown polynomials of commutator" />
+    <MESSAGE value="added requirements.txt" />
+    <MESSAGE value="added file with code for special cases" />
     <MESSAGE value="modified pattern of report output" />
     <option name="LAST_COMMIT_MESSAGE" value="modified pattern of report output" />
   </component>
@@ -253,10 +295,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
-          <line>180</line>
+          <line>194</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <line>274</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <line>166</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <line>172</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
@@ -264,7 +328,8 @@
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1746360551449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$single_test.coverage" NAME="single_test Coverage Results" MODIFIED="1748627994559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$testLoop.coverage" NAME="testLoop Coverage Results" MODIFIED="1746359711339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1748610702650" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test_mpi.coverage" NAME="test_mpi Coverage Results" MODIFIED="1748694165148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1748694148174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$matMul_V1_1.coverage" NAME="matMul_V1_1 Coverage Results" MODIFIED="1746301326204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test.coverage" NAME="test Coverage Results" MODIFIED="1746360726339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
