@@ -46,7 +46,7 @@ coeff_limit = 50
 min_coeff = -coeff_limit
 max_coeff = coeff_limit
 
-max_power = 11
+max_power = 10
 min_power = 0
 
 K = 2
@@ -74,6 +74,9 @@ unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
+keysForReport = [givenDerivationKEY,isProportionalKEY,isSolutionCorrectKey,commutatorKEY]
+
+isShortReport = True
 isSearchNonZero = True
 
 s = 0
@@ -269,7 +272,13 @@ if rank == 0:
     count = 1
     for param, res in all_results.items():
         if not res[isSolutionCorrectKey]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {res[key]} |")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
     file.write("=======================Zero derivations=========================\n")
@@ -283,7 +292,13 @@ if rank == 0:
     count = 1
     for param, res in all_results.items():
         if not res[isProportionalKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |%%%|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
     file.write("=====================Proportional derivations==================\n")
