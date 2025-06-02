@@ -75,10 +75,16 @@ class Commutator:
 
 
     def specialStrategy(self):
-        return max(abs(self.powers[0]-self.powers[1]),abs(self.powers[2]-self.powers[3])) + self.K
+        N = max(abs(self.powers[0]-self.powers[2]),abs(self.powers[1]-self.powers[3])) + self.K
+        N = abs(self.powers[0]-self.powers[2]) + self.K
+        M = abs(self.powers[1]-self.powers[3]) + self.K
+        return N,M
 
     def generalStrategy(self):
-        return max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
+        N = max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
+        N = max(self.powers[0],self.powers[2]) + self.K
+        M = max(self.powers[1],self.powers[3]) + self.K
+        return N,M
 
     def getDegree(self,strategy = "special"):
         strategies = {
@@ -89,7 +95,7 @@ class Commutator:
 
     def generateCommutator(self) -> Derivation:
         variables = self.derivation.variables
-        N = self.getDegree(strategy=self.strategy)
+        N,M = self.getDegree(strategy=self.strategy)
 
         Matrices = []
         symb = ["a","b"]
@@ -99,7 +105,7 @@ class Commutator:
             matrix = []
             for i in range(N):
                 row = []
-                for j in range(N):
+                for j in range(M):
                     coef = symbols(f'{sym}{i}_{j}')
                     row.append(coef)
                     self.unknown_coeffients.append(coef)
