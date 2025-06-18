@@ -17,6 +17,7 @@ from mpi4py import MPI
 from tqdm import tqdm
 import sys
 from cases_functions import get_parameters
+import os
 
 
 from CommutatorSearchSymbolic import *
@@ -322,5 +323,7 @@ if rank == 0:
 
     file.write("==================END of REPORT=======================\n")
     file.close()
+
+    os.system("play -n synth 1 sin 440")
 
 

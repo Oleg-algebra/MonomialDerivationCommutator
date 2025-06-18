@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="modified pattern of report output">
+    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="added short report version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/CommutatorSearchSymbolic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/case_1_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_1_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case_2_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_2_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/case_3_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_3_log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cases_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cases_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_mpi.py" afterDir="false" />
     </list>
@@ -36,32 +35,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.Commutator-search.executor": "Run",
-    "Python.CommutatorSearchSymbolic.executor": "Debug",
-    "Python.matMul_V1_1.executor": "Run",
-    "Python.single_test.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test1_mpi.executor": "Run",
-    "Python.testLoop.executor": "Run",
-    "Python.test_mpi.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SHELLCHECK.PATH": "/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck",
-    "Shell Script.jobscript.sh.executor": "Run",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Commutator-search.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CommutatorSearchSymbolic.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.matMul_V1_1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.single_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test1_mpi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testLoop.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_mpi.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck&quot;,
+    &quot;Shell Script.jobscript.sh.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -74,8 +73,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
-        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
@@ -96,7 +95,10 @@
       <workItem from="1748622149644" duration="7690000" />
       <workItem from="1748631611851" duration="5360000" />
       <workItem from="1748691936191" duration="2084000" />
-      <workItem from="1748694040052" duration="20616000" />
+      <workItem from="1748694040052" duration="20936000" />
+      <workItem from="1748721382037" duration="2438000" />
+      <workItem from="1748844377942" duration="3738000" />
+      <workItem from="1750261481650" duration="209000" />
     </task>
     <task id="LOCAL-00001" summary="added mpi implementation">
       <option name="closed" value="true" />
@@ -250,7 +252,31 @@
       <option name="project" value="LOCAL" />
       <updated>1748630539339</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="done some tests">
+      <option name="closed" value="true" />
+      <created>1748716763642</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1748716763642</updated>
+    </task>
+    <task id="LOCAL-00021" summary="added new ways to choose unknown polynomials degree">
+      <option name="closed" value="true" />
+      <created>1748849675184</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1748849675184</updated>
+    </task>
+    <task id="LOCAL-00022" summary="added short report version">
+      <option name="closed" value="true" />
+      <created>1748849737824</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1748849737824</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,7 +309,10 @@
     <MESSAGE value="added requirements.txt" />
     <MESSAGE value="added file with code for special cases" />
     <MESSAGE value="modified pattern of report output" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified pattern of report output" />
+    <MESSAGE value="done some tests" />
+    <MESSAGE value="added new ways to choose unknown polynomials degree" />
+    <MESSAGE value="added short report version" />
+    <option name="LAST_COMMIT_MESSAGE" value="added short report version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -295,23 +324,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
-          <line>194</line>
+          <line>200</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_mpi.py</url>
-          <line>274</line>
+          <line>284</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_mpi.py</url>
-          <line>166</line>
+          <line>170</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_mpi.py</url>
-          <line>172</line>
+          <line>176</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
