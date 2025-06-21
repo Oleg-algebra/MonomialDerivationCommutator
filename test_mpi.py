@@ -18,11 +18,16 @@ from tqdm import tqdm
 import sys
 from cases_functions import get_parameters
 import os
-
+import argparse
 
 from CommutatorSearchSymbolic import *
 
+
 sys.setrecursionlimit(10**6)
+
+
+
+
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
@@ -30,8 +35,16 @@ rank = comm.Get_rank()
 
 comm.Barrier()
 if rank == 0:
-    case = int(input("Enter the case number: "))
-    total_tests_number = int(input("Enter the total number of tests: "))
+    parser = argparse.ArgumentParser(description="A simple script with command-line arguments.")
+    parser.add_argument("--case", help="case number")
+    parser.add_argument("--it", type=int, default=1, help="iteration number")
+
+    args = parser.parse_args()
+    print(f"case: {args.case}, iterations: {args.it}")
+    case = int(args.case)
+    total_tests_number = int(args.it)
+    # case = int(input("Enter the case number: "))
+    # total_tests_number = int(input("Enter the total number of tests: "))
 else:
     total_tests_number = None
     case = None
@@ -47,11 +60,11 @@ coeff_limit = 50
 min_coeff = -coeff_limit
 max_coeff = coeff_limit
 
-max_power = 10
+max_power = 40
 min_power = 0
 
 K = 2
-max_K = 10
+max_K = 5
 
 variables_number = 2
 proportionalCounter = 0
@@ -76,6 +89,7 @@ zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
 keysForReport = [givenDerivationKEY,isProportionalKEY,isSolutionCorrectKey,commutatorKEY]
+keysForReport = [givenDerivationKEY,commutatorKEY]
 
 isShortReport = True
 isSearchNonZero = True
@@ -104,19 +118,18 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
         #   Determine parameters
         #########################################################################
         if K == 2:
-            # print("--->")
-            # l = np.random.randint(0, max_power)
-            # k = l
-            # n = np.random.randint(0, max_power)
-            # m = n
-            #
-            # alpha = np.random.randint(min_coeff, max_coeff)
-            # beta = np.random.randint(min_coeff, max_coeff)
+
 
             l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
 
-            # if alpha*beta == 0:
+            if alpha*beta == 0:
+                continue
+            # if m == 1 or m == 0:
             #     continue
+            #
+            # if (n+1) / m < 2:
+            #     continue
+
             if alpha**2 + beta**2 == 0:
                 continue
         else:
@@ -185,8 +198,6 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
 
         result["K"] = K
         result[commutatorKEY] = commutatorPolynomials
-
-
 
         end = time.time()
         time_elapsed = end - start
@@ -286,7 +297,13 @@ if rank == 0:
     count = 1
     for param, res in all_results.items():
         if res[isZeroDerivationKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
     file.write("=======================Unproportional derivations=========================\n")
@@ -296,7 +313,7 @@ if rank == 0:
             if isShortReport:
                 file.write(f"{count}):  {param}: ")
                 for key in keysForReport:
-                    file.write(f" {key} : {res[key]} |%%%|")
+                    file.write(f" {key} : {res[key]} |-----|")
                 file.write("\n")
             else:
                 file.write(f"{count}):  {param}: {res}\n")
@@ -307,7 +324,13 @@ if rank == 0:
     for param, res in all_results.items():
 
         if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
 
@@ -315,7 +338,13 @@ if rank == 0:
     count = 1
     for param, res in all_results.items():
         if res[isSolutionCorrectKey]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
 
