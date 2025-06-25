@@ -122,12 +122,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
 
             l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
 
-            if alpha*beta == 0:
-                continue
-            # if m == 1 or m == 0:
-            #     continue
-            #
-            # if (n+1) / m < 2:
+            # if alpha*beta == 0:
             #     continue
 
             if alpha**2 + beta**2 == 0:
@@ -174,7 +169,11 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
 
         zeroCounter = 0
         for i in range(len(res.polynomials)):
-            commutatorPolynomials.append(res.polynomials[i].polynomial_symbolic)
+            polynom = res.polynomials[i].polynomial_symbolic
+            if isProportional:
+                polynom = simplify(res.polynomials[i].polynomial_symbolic)
+            commutatorPolynomials.append(polynom)
+
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
@@ -353,6 +352,5 @@ if rank == 0:
     file.write("==================END of REPORT=======================\n")
     file.close()
 
-    os.system("play -n synth 1 sin 440")
 
 

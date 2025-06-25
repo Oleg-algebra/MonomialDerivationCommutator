@@ -7,6 +7,7 @@ def get_parameters(case: int,
                    max_coeff:int,
                    ):
     cases={
+        111: testCase,
         777: nonPropCase,
         888: propCase,
         1: case1,
@@ -29,6 +30,26 @@ def get_parameters(case: int,
     }
 
     return cases[case](min_power, max_power, min_coeff, max_coeff)
+
+def testCase(min_power, max_power, min_coeff, max_coeff):
+    l = np.random.randint(1, max_power+1)
+    l = 1
+    k = l
+    m = np.random.randint(2, max_power+1)
+    n = np.random.randint(0, m)
+    n = 0
+
+    alpha = np.random.randint(min_coeff, max_coeff)
+    beta = np.random.randint(min_coeff, max_coeff)
+
+    # p = np.random.randint(0, 2)
+    # if p == 0:
+    #     alpha = 0
+    # else:
+    #     beta = 0
+    alpha = 0
+    return l, k, n, m, alpha, beta
+
 
 def nonPropCase(min_power, max_power, min_coeff, max_coeff):
     while True:

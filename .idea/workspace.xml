@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="added reading of parameters from command line">
-      <change afterPath="$PROJECT_DIR$/read_from_command_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case_1_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_1_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case_2_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_2_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case_3_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_3_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case_4_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/case_4_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cases_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cases_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/non_zero_commutator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/single_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_test.py" afterDir="false" />
+    <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="made new directories">
+      <change afterPath="$PROJECT_DIR$/single-tests/job.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single-tests/read_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpi-tests/cases_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpi-tests/cases_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpi-tests/jobscript.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mpi-tests/jobscript.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpi-tests/test_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpi-tests/test_mpi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/single-tests/single_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/single-tests/single_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,37 +36,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.Commutator-search.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CommutatorSearchSymbolic.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.matMul_V1_1.executor&quot;: &quot;Run&quot;,
-    &quot;Python.single_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test1_mpi.executor&quot;: &quot;Run&quot;,
-    &quot;Python.testLoop.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_mpi.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck&quot;,
-    &quot;Shell Script.jobscript.sh.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Commutator-search.executor": "Run",
+    "Python.CommutatorSearchSymbolic.executor": "Debug",
+    "Python.matMul_V1_1.executor": "Run",
+    "Python.read_report.executor": "Run",
+    "Python.single_test.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test1_mpi.executor": "Run",
+    "Python.testLoop.executor": "Run",
+    "Python.test_mpi.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHELLCHECK.PATH": "/home/otyshchenko/.local/share/JetBrains/PyCharm2025.1/Shell Script/shellcheck",
+    "Shell Script.job.sh.executor": "Run",
+    "Shell Script.jobscript.sh.executor": "Run",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator/mpi-tests",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mpi-tests" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cases" />
+      <recent name="$PROJECT_DIR$/single-tests" />
+      <recent name="$PROJECT_DIR$/mpi-tests" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/case1" />
     </key>
@@ -112,6 +115,7 @@
       <workItem from="1750434656136" duration="10507000" />
       <workItem from="1750503366732" duration="12650000" />
       <workItem from="1750700130332" duration="115000" />
+      <workItem from="1750847540994" duration="20379000" />
     </task>
     <task id="LOCAL-00001" summary="added mpi implementation">
       <option name="closed" value="true" />
@@ -305,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750518681392</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="made new directories">
+      <option name="closed" value="true" />
+      <created>1750848288634</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1750848288634</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,33 +355,34 @@
     <MESSAGE value="added short report version" />
     <MESSAGE value="added beep sound at the end in test_mpi.py" />
     <MESSAGE value="added reading of parameters from command line" />
-    <option name="LAST_COMMIT_MESSAGE" value="added reading of parameters from command line" />
+    <MESSAGE value="made new directories" />
+    <option name="LAST_COMMIT_MESSAGE" value="made new directories" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/single_test.py</url>
+          <url>file://$PROJECT_DIR$/single-tests/single_test.py</url>
           <line>49</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CommutatorSearchSymbolic.py</url>
+          <url>file://$PROJECT_DIR$/single-tests/CommutatorSearchSymbolic.py</url>
           <line>200</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <url>file://$PROJECT_DIR$/mpi-tests/test_mpi.py</url>
           <line>183</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <url>file://$PROJECT_DIR$/mpi-tests/test_mpi.py</url>
           <line>189</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_mpi.py</url>
+          <url>file://$PROJECT_DIR$/mpi-tests/test_mpi.py</url>
           <line>133</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
@@ -384,9 +397,10 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$read_report.coverage" NAME="read_report Coverage Results" MODIFIED="1750858268603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/single-tests" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test1_mpi.coverage" NAME="test1_mpi Coverage Results" MODIFIED="1746305215984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$Commutator_search.coverage" NAME="Commutator-search Coverage Results" MODIFIED="1746360551449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$single_test.coverage" NAME="single_test Coverage Results" MODIFIED="1750700181738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$single_test.coverage" NAME="single_test Coverage Results" MODIFIED="1750849088586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/single-tests" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$testLoop.coverage" NAME="testLoop Coverage Results" MODIFIED="1746359711339" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$test_mpi.coverage" NAME="test_mpi Coverage Results" MODIFIED="1748694165148" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MonomialDerivationCommutator$CommutatorSearchSymbolic.coverage" NAME="CommutatorSearchSymbolic Coverage Results" MODIFIED="1748694148174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
