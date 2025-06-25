@@ -60,9 +60,9 @@ def propCase(min_power, max_power, min_coeff, max_coeff):
 
 
 def case1(min_power, max_power, min_coeff, max_coeff):
-    l = np.random.randint(0, max_power)
+    l = np.random.randint(2, max_power)
     k = l
-    n = np.random.randint(0, max_power)
+    n = np.random.randint(2, max_power)
     m = n
 
     alpha = np.random.randint(min_coeff, max_coeff)
@@ -73,45 +73,49 @@ def case1(min_power, max_power, min_coeff, max_coeff):
     #     alpha = 0
     # else:
     #     beta = 0
-    # beta = 0
+
 
     return l, k, n, m, alpha, beta
 
 def case2(min_power, max_power, min_coeff, max_coeff):
-    l = np.random.randint(1, max_power)
+    l = np.random.randint(0, max_power)
     k = l
-    m = np.random.randint(2, max_power)
+    m = np.random.randint(1, max_power)
     n = m - 1
 
     alpha = np.random.randint(min_coeff, max_coeff)
     beta = np.random.randint(min_coeff, max_coeff)
 
-    p = np.random.randint(0,2)
-    if p ==0:
-        alpha = 0
-    else:
-        beta = 0
-
+    # p = np.random.randint(0,2)
+    # if p ==0:
+    #     alpha = 0
+    # else:
+    #     beta = 0
     return l, k, n, m, alpha, beta
 
 def case3(min_power, max_power, min_coeff, max_coeff):
-    l = np.random.randint(2, max_power)
-    l=1
+    l = np.random.randint(0, max_power)
     k = l
-    m = np.random.randint(3, max_power)
-    n = np.random.randint(1, m - 1)
+    m = np.random.randint(2, max_power)
+    n = np.random.randint(0, m - 1)
 
     alpha = np.random.randint(min_coeff, max_coeff)
     beta = np.random.randint(min_coeff, max_coeff)
-    alpha = 0
+
+    # p = np.random.randint(0, 2)
+    # if p ==0:
+    #     alpha = 0
+    # else:
+    #     beta = 0
+
 
     return l, k, n, m, alpha, beta
 
 def case4(min_power, max_power, min_coeff, max_coeff):
-    l = np.random.randint(2, max_power)
+    l = np.random.randint(1, max_power)
     k = l
-    n = np.random.randint(3, max_power)
-    m = np.random.randint(2, n)
+    n = np.random.randint(1, max_power)
+    m = np.random.randint(0, n)
 
     alpha = np.random.randint(min_coeff, max_coeff)
     beta = np.random.randint(min_coeff, max_coeff)

@@ -17,37 +17,42 @@ from mpi4py import MPI
 from tqdm import tqdm
 import sys
 from cases_functions import get_parameters
-
+import os
+import argparse
 
 from CommutatorSearchSymbolic import *
 
+
 sys.setrecursionlimit(10**6)
 
-def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
-    polyDerivatives1 = []
-    polyDerivatives2 = []
 
-    for poly in derivation1.polynomials:
-        der = derivation2.take_derivative(poly.polynomial_symbolic)
-        polyDerivatives1.append(der)
 
-    for poly in derivation2.polynomials:
-        der = derivation1.take_derivative(poly.polynomial_symbolic)
-        polyDerivatives2.append(der)
 
-    for i in range(len(polyDerivatives1)):
-        difference = polyDerivatives1[i] - polyDerivatives2[i]
-        if not difference.equals(0):
-            return False
-    return True
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-case = 1
+comm.Barrier()
+if rank == 0:
+    parser = argparse.ArgumentParser(description="A simple script with command-line arguments.")
+    parser.add_argument("--case", help="case number")
+    parser.add_argument("--it", type=int, default=1, help="iteration number")
 
-total_tests_number = 100
+    args = parser.parse_args()
+    print(f"case: {args.case}, iterations: {args.it}")
+    case = int(args.case)
+    total_tests_number = int(args.it)
+    # case = int(input("Enter the case number: "))
+    # total_tests_number = int(input("Enter the total number of tests: "))
+else:
+    total_tests_number = None
+    case = None
+case = comm.bcast(case, root=0)
+total_tests_number = comm.bcast(total_tests_number, root=0)
+comm.Barrier()
+
+
 
 tests_number = total_tests_number // size + 2
 
@@ -59,14 +64,14 @@ max_power = 10
 min_power = 0
 
 K = 2
-max_K = 7
+max_K = 5
 
 variables_number = 2
 proportionalCounter = 0
 unproportionalCounter = 0
 zeroDerivationCounter = 0
 correct_answers_counter = 0
-false_answers_counter = 0
+incorrect_answers_counter = 0
 
 results = {}
 givenDerivationKEY = "GIVEN_DERIVATION"
@@ -83,6 +88,12 @@ unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
+keysForReport = [givenDerivationKEY,isProportionalKEY,isSolutionCorrectKey,commutatorKEY]
+keysForReport = [givenDerivationKEY,commutatorKEY]
+
+isShortReport = True
+isSearchNonZero = True
+
 s = 0
 
 l = 0
@@ -94,10 +105,10 @@ alpha = 0
 beta = 0
 
 counter = 0
-obtained_cases_counter = 0
+strategy = "special"
 # print(f'rank: {rank} started testing')
-with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None,disable=rank!=0) as pbar:
-    while obtained_cases_counter < total_tests_number:
+with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disable=False) as pbar:
+    while counter < tests_number:
 
         start = time.time()
 
@@ -107,16 +118,20 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
         #   Determine parameters
         #########################################################################
         if K == 2:
-            # print("--->")
-            l = np.random.randint(0, max_power)
-            k = l
-            n = np.random.randint(0, max_power)
-            m = n
 
-            alpha = np.random.randint(min_coeff, max_coeff)
-            beta = np.random.randint(min_coeff, max_coeff)
 
-            # l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+            l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
+
+            if alpha*beta == 0:
+                continue
+            # if m == 1 or m == 0:
+            #     continue
+            #
+            # if (n+1) / m < 2:
+            #     continue
+
+            if alpha**2 + beta**2 == 0:
+                continue
         else:
             # print("--> increased K by 1")
             pass
@@ -125,8 +140,6 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
         powers1 = [k,n]
         powers2 = [l, m]
 
-        if alpha ** 2 + beta **2 == 0:
-            continue
 
         if (k,n,l,m,alpha,beta) in results.keys():
             continue
@@ -140,7 +153,7 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
 
         der = Derivation([polynomial1,polynomial2],monomail1.vars)
 
-        commutator = Commutator(der,[*powers1,*powers2],K)
+        commutator = Commutator(der,[*powers1,*powers2],K,strategy=strategy)
 
         result[isZeroDerivationKEY] = False
 
@@ -148,10 +161,16 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
         result[matrixDimension] = commutator.unknown_derivation.polynomials[0].coefficients.shape
         commutatorPolynomials = []
 
-        if isSolution(der,res):
+        # if isProportional and K < max_K:
+        #     K+=1
+        #     continue
+
+        if commutator.isSolution(der,res):
             result[isSolutionCorrectKey] = True
         else:
             result[isSolutionCorrectKey] = False
+
+        result[isProportionalKEY] = isProportional
 
         zeroCounter = 0
         for i in range(len(res.polynomials)):
@@ -159,9 +178,18 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
             if res.polynomials[i].polynomial_symbolic.equals(0):
                 zeroCounter += 1
         if zeroCounter == variables_number:
-            if K < max_K:
-                K += 1
-                continue
+            if isSearchNonZero:
+                if K < max_K:
+                    # print("Increase K")
+                    K += 1
+                    continue
+                else:
+                    # print("Max K reached")
+                    if strategy == "special":
+                        # print("change strategy")
+                        strategy = "general"
+                        K = 2
+                        continue
             result[isZeroDerivationKEY] = True
 
         else:
@@ -170,8 +198,6 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
 
         result["K"] = K
         result[commutatorKEY] = commutatorPolynomials
-        result[isProportionalKEY] = isProportional
-
 
         end = time.time()
         time_elapsed = end - start
@@ -179,21 +205,11 @@ with tqdm(total=total_tests_number,desc=f"Rank: {rank}",position=rank,leave=None
 
         s+=time_elapsed
         results[(k, n, l, m, alpha, beta)] = result
+
+        strategy = "special"
         K = 2
-
         counter += 1
-
-        counters = comm.gather(counter, root=0)
-        if rank == 0:
-            new_counter = sum(counters)
-        else:
-            new_counter = None
-
-        new_counter = comm.bcast(new_counter, root=0)
-
-
-        pbar.update(new_counter- obtained_cases_counter)
-        obtained_cases_counter = new_counter
+        pbar.update(1)
 
 
 comm.Barrier()
@@ -225,7 +241,7 @@ if rank == 0:
         if res[isSolutionCorrectKey]:
             correct_answers_counter += 1
         else:
-            false_answers_counter += 1
+            incorrect_answers_counter += 1
         total_time += res[time_exec_KEY]
 
     average_K = average_K / len(all_results.keys())
@@ -239,6 +255,8 @@ if rank == 0:
     print(f'proportional: {proportionalCounter}')
     print(f'unproportional: {unproportionalCounter}')
     print(f'zeroDerivations: {zeroDerivationCounter}')
+    print(f"correct answers number: {correct_answers_counter}")
+    print(f"incorrect answers number: {incorrect_answers_counter}")
     print(f"Average K: {average_K}")
     print(f"Max K: {max_K}")
     print("Average time per process: ", average_time_per_process)
@@ -255,53 +273,86 @@ if rank == 0:
     file.write(f"unproportional: {unproportionalCounter}\n")
     file.write(f"zeroDerivations: {zeroDerivationCounter}\n")
     file.write(f"correct answers number: {correct_answers_counter}\n")
-    file.write(f"false answers number: {false_answers_counter}\n")
-    file.write(f"Average K: {average_K}")
-    file.write(f"Max K: {max_K}")
-    file.write(f"Average time per process: {average_time_per_process}")
+    file.write(f"incorrect answers number: {incorrect_answers_counter}\n")
+    file.write(f"Average K: {average_K}\n")
+    file.write(f"Max K: {max_K}\n")
+    file.write(f"Average time per process: {average_time_per_process}\n")
     file.write(f"average time per test: {total_time / (tests_number*size)}\n")
     file.write("======================Special cases=========================\n")
 
-    file.write("=====================Proportional derivations==================\n")
+    file.write("=======================Incorrect answers=========================\n")
     count = 1
     for param, res in all_results.items():
-
-        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+        if not res[isSolutionCorrectKey]:
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {res[key]} |")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
     file.write("=======================Zero derivations=========================\n")
     count = 1
     for param, res in all_results.items():
         if res[isZeroDerivationKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
-    file.write("=======================Unproportional derivation=========================\n")
+    file.write("=======================Unproportional derivations=========================\n")
     count = 1
     for param, res in all_results.items():
         if not res[isProportionalKEY]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
+
+    file.write("=====================Proportional derivations==================\n")
+    count = 1
+    for param, res in all_results.items():
+
+        if res[isProportionalKEY] and not res[isZeroDerivationKEY]:
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
+            count += 1
+
 
     file.write("=======================Correct answers=========================\n")
     count = 1
     for param, res in all_results.items():
         if res[isSolutionCorrectKey]:
-            file.write(f"{count}):  {param}: {res}\n")
+            if isShortReport:
+                file.write(f"{count}):  {param}: ")
+                for key in keysForReport:
+                    file.write(f" {key} : {res[key]} |-----|")
+                file.write("\n")
+            else:
+                file.write(f"{count}):  {param}: {res}\n")
             count += 1
 
-
-    file.write("=======================False answers=========================\n")
-    count = 1
-    for param, res in all_results.items():
-        if not res[isSolutionCorrectKey]:
-            file.write(f"{count}):  {param}: {res}\n")
-            count += 1
 
 
 
     file.write("==================END of REPORT=======================\n")
     file.close()
+
+    os.system("play -n synth 1 sin 440")
 
 

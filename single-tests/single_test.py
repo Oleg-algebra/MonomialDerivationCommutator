@@ -6,13 +6,13 @@ isSearchNonZero = True
 isZeroDerivation = False
 max_K = 25
 
-k = 9
-n= 14
-l = 9
-m = 14
+k = 0
+n= 2
+l = 2
+m = 0
 
-alpha = -33
-beta = -21
+alpha = 1
+beta = 1
 
 powers1 = [k, n]
 powers2 = [l, m]
