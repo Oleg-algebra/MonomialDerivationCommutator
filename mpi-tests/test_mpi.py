@@ -16,7 +16,8 @@ import time
 from mpi4py import MPI
 from tqdm import tqdm
 import sys
-from cases_functions import get_parameters
+# from cases_functions import get_parameters
+from case_functions2 import get_parameters
 import os
 import argparse
 
@@ -52,15 +53,13 @@ case = comm.bcast(case, root=0)
 total_tests_number = comm.bcast(total_tests_number, root=0)
 comm.Barrier()
 
-
-
 tests_number = total_tests_number // size + 2
 
-coeff_limit = 50
+coeff_limit = 15
 min_coeff = -coeff_limit
 max_coeff = coeff_limit
 
-max_power = 10
+max_power = 15
 min_power = 0
 
 K = 2
@@ -122,7 +121,13 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
 
             l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
 
-            # if alpha*beta == 0:
+            if alpha*beta == 0:
+                continue
+
+            if k == 0 or m == 0:
+                continue
+
+            # if (k + n) != (l + m):
             #     continue
 
             if alpha**2 + beta**2 == 0:
@@ -196,7 +201,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
             result[isZeroDerivationKEY] = False
 
         result["K"] = K
-        result[commutatorKEY] = commutatorPolynomials
+        result[commutatorKEY] = commutatorPolynomials[:]
 
         end = time.time()
         time_elapsed = end - start
