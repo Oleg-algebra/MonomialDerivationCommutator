@@ -75,15 +75,19 @@ class Commutator:
 
 
     def specialStrategy(self):
-        N = max(abs(self.powers[0]-self.powers[2]),abs(self.powers[1]-self.powers[3])) + self.K
-        N = abs(self.powers[0]-self.powers[2]) + self.K
-        M = abs(self.powers[1]-self.powers[3]) + self.K
+        # N = max(abs(self.powers[0]-self.powers[2]),abs(self.powers[1]-self.powers[3])) + self.K
+        flag1 = self.derivation.polynomials[0].polynomial_symbolic.equals(0)
+        flag2 = self.derivation.polynomials[1].polynomial_symbolic.equals(0)
+        N = abs(self.powers[0]*(not flag1)-self.powers[2]*(not flag2)) + self.K
+        M = abs(self.powers[1]*(not flag1)-self.powers[3]*(not flag2)) + self.K
         return N,M
 
     def generalStrategy(self):
-        N = max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
-        N = max(self.powers[0],self.powers[2]) + self.K
-        M = max(self.powers[1],self.powers[3]) + self.K
+        # N = max(self.powers[0],self.powers[1],self.powers[2],self.powers[3]) + self.K
+        flag1 = self.derivation.polynomials[0].polynomial_symbolic.equals(0)
+        flag2 = self.derivation.polynomials[1].polynomial_symbolic.equals(0)
+        N = max(self.powers[0]*(not flag1),self.powers[2]*(not flag2)) + self.K
+        M = max(self.powers[1]*(not flag1),self.powers[3]*(not flag2)) + self.K
         return N,M
 
     def getDegree(self,strategy = "special"):
