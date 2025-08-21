@@ -44,7 +44,6 @@ K = 2
 commutator = Commutator(der,[*powers1,*powers2],K)
 
 commutatorPolynomials = []
-commutator = Commutator(der, [*powers1, *powers2], K)
 # print(f"Matrices size: {commutator.unknown_derivation.polynomials[0].coefficients.shape}")
 
 res, isProportional = commutator.get_commutator()
