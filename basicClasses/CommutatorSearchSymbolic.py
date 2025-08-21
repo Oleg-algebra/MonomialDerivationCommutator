@@ -1,4 +1,3 @@
-from numpy.polynomial.polynomial import Polynomial
 from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, Expr, solve, Poly, N, nsimplify
 import numpy as np
 
@@ -215,12 +214,13 @@ class Commutator:
 
 
 
-        for poly in self.unknown_derivation.polynomials:
-            for coeff in arbitrary_coefficients:
-                number = np.random.randint(1,10)
-                new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
-                poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
-                # poly.polynomial_symbolic = new_symbolic_expr
+        # for poly in self.unknown_derivation.polynomials:
+        #     for coeff in arbitrary_coefficients:
+        #         number = np.random.randint(1,10)
+        #         number = 1
+        #         new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,number)
+        #         poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
+        #         # poly.polynomial_symbolic = new_symbolic_expr
 
         # is_proportional = self.is_proportional()
         is_proportional = self.is_proportional2()

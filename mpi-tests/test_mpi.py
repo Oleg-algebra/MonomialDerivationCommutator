@@ -24,6 +24,7 @@ import argparse
 from CommutatorSearchSymbolic import *
 
 
+
 sys.setrecursionlimit(10**6)
 
 
@@ -124,7 +125,7 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
             if alpha*beta == 0:
                 continue
 
-            if k == 0 or m == 0:
+            if m < 2 :
                 continue
 
             # if (k + n) != (l + m):

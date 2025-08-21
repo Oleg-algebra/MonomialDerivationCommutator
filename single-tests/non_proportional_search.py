@@ -1,7 +1,5 @@
-from CommutatorSearchSymbolic import *
-from math import sqrt
+from basicClasses.CommutatorSearchSymbolic import *
 import argparse
-import os
 from time import time
 from tqdm import tqdm
 
@@ -18,20 +16,20 @@ parser.add_argument("--K", help="max bias power")
 args = parser.parse_args()
 # N = int(args.N)
 # max_K = int(args.K)
-N = 1
-max_K = 3
+N = 2
+max_K = 15
 k = 0
 n= N
 l = N
 m = 0
 
-k = 2
-n = 6
-l = 2
-m = 6
+# k = 2
+# n = 6
+# l = 2
+# m = 6
 
-alpha = 8
-beta = 0
+alpha = 1
+beta = 1
 
 powers1 = [k, n]
 powers2 = [l, m]
@@ -71,7 +69,7 @@ with tqdm(total=max_K,desc=f"Case N = {N}",position = 0,leave=False,disable=Fals
         else:
             isZeroDerivation = False
 
-        file.write(f"K = {K} --- isProportional: {isProportional} --- COMMUTATOR: {commutatorPolynomials}\n")
+        file.write(f"K = {K} --- isProportional: {isProportional} --- isSolution: {commutator.isSolution(der,res)} --- COMMUTATOR: {commutatorPolynomials}\n")
 
         if isProportional:
             # print("Proportional ---> increase K by 1")

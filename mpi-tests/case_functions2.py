@@ -145,8 +145,9 @@ def case5(min_power, max_power, min_coeff, max_coeff):
     return l, k, n, m, alpha, beta
 
 def case6(min_power, max_power, min_coeff, max_coeff):
-    k = np.random.randint(1, max_power+1)
+    k = np.random.randint(2, max_power+1)
     l = np.random.randint(0, k)
+    l = 0
 
     n = np.random.randint(1, max_power+1)
     m = np.random.randint(0, n)
