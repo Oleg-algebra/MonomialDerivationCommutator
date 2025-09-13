@@ -16,20 +16,20 @@ parser.add_argument("--K", help="max bias power")
 args = parser.parse_args()
 # N = int(args.N)
 # max_K = int(args.K)
-N = 2
-max_K = 15
+N = 111
+max_K = 10
 k = 0
 n= N
 l = N
 m = 0
 
-# k = 2
-# n = 6
-# l = 2
-# m = 6
+k = 11
+n = 2
+l = 10
+m = 1
 
-alpha = 1
-beta = 1
+alpha = 4
+beta = -22
 
 powers1 = [k, n]
 powers2 = [l, m]

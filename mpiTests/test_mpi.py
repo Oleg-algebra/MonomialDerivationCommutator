@@ -121,11 +121,11 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
 
 
             l,k,n,m,alpha,beta = get_parameters(case, min_power, max_power, min_coeff, max_coeff)
-            n = 0
-            l = 0
-            k = np.random.randint(1,15)
-            m = np.random.randint(1,15)
-            alpha = beta = 1
+            # n = 0
+            # l = 0
+            # k = np.random.randint(1,15)
+            # m = np.random.randint(1,15)
+            # alpha = beta = 1
 
             if alpha*beta == 0:
                 continue

@@ -257,8 +257,8 @@ class Commutator:
         # print(f"proportion: {prop}")
         return prop.equals(0)
 
-
-    def isSolution(self,derivation1: Derivation,derivation2: Derivation) -> bool:
+    @staticmethod
+    def isSolution(derivation1: Derivation,derivation2: Derivation) -> bool:
         polyDerivatives1 = []
         polyDerivatives2 = []
 

@@ -51,7 +51,7 @@ with tqdm(total=max_K,desc=f"Case N = {N}",position = 0,leave=False,disable=Fals
     while K <= max_K:
         # print(f"K = {K}")
         commutatorPolynomials = []
-        constanSearch = ConstantSearchSymbolic(der,[*powers1,*powers2],K,)
+        constanSearch = ConstantSearchSymbolic(der,[*powers1,*powers2],K)
         # print(f"Matrices size: {commutator.unknown_derivation.polynomials[0].coefficients.shape}")
 
         constant, isConstant = constanSearch.get_constant()
