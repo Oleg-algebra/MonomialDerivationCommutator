@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bde47f7d-e407-4a35-9a63-3347d4582f4e" name="Changes" comment="added vectorFieldsAnimation.py realization">
-      <change afterPath="$PROJECT_DIR$/constantsTransformations/searchExample.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/constantsTransformations/transformations.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mpiTests/cases_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MonomialDerivationCommutator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MonomialDerivationCommutator.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basicClasses/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/basicClasses/CommutatorSearchSymbolic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constantsSearchSymbolic/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/constantsSearchSymbolic/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpi-tests/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/CommutatorSearchSymbolic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpi-tests/case_functions2.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/case_functions2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpi-tests/cases_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/basicClasses/cases_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpi-tests/jobscript.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/jobscript.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpi-tests/test_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/test_mpi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/single-tests/non_proportional_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/single-tests/non_proportional_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpiTests/CommutatorSearchSymbolic.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/CommutatorSearchSymbolic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpiTests/test_mpi.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpiTests/test_mpi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +61,7 @@
     &quot;Shell Script.job.sh.executor&quot;: &quot;Run&quot;,
     &quot;Shell Script.jobscript.sh.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/media/otyshchenko/Data/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator/basicClasses&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/oleg/MyData/MyData/University/Phd-Math/Дисертація/2-Monomial-derivations/MonomialDerivationCommutator&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,8 +88,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-PY-252.23892.515" />
-        <option value="bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515" />
+        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-PY-252.26199.168" />
+        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
       </set>
     </attachedChunks>
   </component>
@@ -147,6 +140,8 @@
       <workItem from="1755758941194" duration="7850000" />
       <workItem from="1755776275474" duration="8398000" />
       <workItem from="1756059647775" duration="4000" />
+      <workItem from="1759047936884" duration="16000" />
+      <workItem from="1759047991313" duration="502000" />
     </task>
     <task id="LOCAL-00001" summary="added mpi implementation">
       <option name="closed" value="true" />

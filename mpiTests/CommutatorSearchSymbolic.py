@@ -212,12 +212,10 @@ class Commutator:
                 new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,coefficients[coeff])
                 poly.polynomial_symbolic = new_symbolic_expr
 
-
-
-        for poly in self.unknown_derivation.polynomials:
-            for coeff in arbitrary_coefficients:
-                number = np.random.randint(1,10)
-                new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,1)
+        for coeff in arbitrary_coefficients:
+            number = np.random.randint(1, 10)
+            for poly in self.unknown_derivation.polynomials:
+                new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,number)
                 poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
                 # poly.polynomial_symbolic = new_symbolic_expr
 

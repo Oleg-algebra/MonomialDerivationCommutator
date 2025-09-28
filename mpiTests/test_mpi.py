@@ -88,7 +88,7 @@ unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
-keysForReport = [givenDerivationKEY,isProportionalKEY,isSolutionCorrectKey,commutatorKEY]
+keysForReport = [givenDerivationKEY,isSolutionCorrectKey,commutatorKEY]
 # keysForReport = [givenDerivationKEY,commutatorKEY,isProportionalKEY,isSolutionCorrectKey]
 
 isShortReport = True
@@ -256,6 +256,8 @@ if rank == 0:
 
     average_K = average_K / len(all_results.keys())
     average_time_per_process = total_time / size
+
+    os.system("clear")
 
     print("\n"+"="*100)
     print(f"Total number of different cases: {len(all_results.keys())}")
