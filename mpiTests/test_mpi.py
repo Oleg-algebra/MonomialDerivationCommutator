@@ -1,16 +1,4 @@
-#
-#
-# D = alpha*x^k*y^n* d/dx + beta*x^l*y^m d/dy  -- given derivation
-#
-#T = P(x,y)d/dx + Q(x,y)d/dy  -- unknown derivation
-#
-#
-#where P = sum_i,j = 0 ^ n a_ij*x^iy^j
-#       Q = sum_i,j = 0 ^ n b_ij*x^iy^j
-#     b_ij, a_ij  --- needs to be found
-#
-#
-# case 1: l=k and n = m
+
 import os
 import time
 from mpi4py import MPI
@@ -88,7 +76,7 @@ unproportionalKEY = "unproportionalCounter"
 zeroDerivaionsKEY = "zeroDerivaionsCounter"
 time_exec_KEY = "time_elapsed"
 
-keysForReport = [givenDerivationKEY,isSolutionCorrectKey,commutatorKEY]
+keysForReport = [givenDerivationKEY,isSolutionCorrectKey,matrixDimension,commutatorKEY]
 # keysForReport = [givenDerivationKEY,commutatorKEY,isProportionalKEY,isSolutionCorrectKey]
 
 isShortReport = True
@@ -150,16 +138,20 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
         if (k,n,l,m,alpha,beta) in results.keys():
             continue
 
-        monomail1 = Monomial(variables_number,alpha,powers1)
-        monomail2 = Monomial(variables_number,beta,powers2)
-        polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
-        polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
+        x, y = symbols("x"), symbols("y")
+        variables = [x, y]
+
+        monomial1 = alpha * x ** k * y ** n
+        monomial2 = beta * x ** l * y ** m
+
+        polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
+        polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
 
         result[givenDerivationKEY] = [polynomial1.polynomial_symbolic, polynomial2.polynomial_symbolic]
 
-        der = Derivation([polynomial1,polynomial2],monomail1.vars)
+        der = Derivation([polynomial1,polynomial2],variables)
 
-        commutator = Commutator(der,[*powers1,*powers2],K,strategy=strategy)
+        commutator = Commutator(der,K,degreeStrategy=strategy)
 
         result[isZeroDerivationKEY] = False
 

@@ -34,15 +34,19 @@ beta = -22
 powers1 = [k, n]
 powers2 = [l, m]
 
-monomail1 = Monomial(2,alpha,powers1)
-monomail2 = Monomial(2,beta,powers2)
-polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic,vars=monomail1.vars)
-polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic,vars=monomail2.vars)
+x,y = symbols("x"),symbols("y")
+variables = [x,y]
+
+monomial1 = alpha*x**k*y**n
+monomial2 = beta*x**l*y**m
+
+polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
+polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
 
 
 der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)
 K = 2
-commutator = Commutator(der,[*powers1,*powers2],K)
+commutator = Commutator(der,K)
 file = open(f"test_{N}_output.txt","w")
 file.write("Test results\n")
 file.write("="*100 + "\n")
@@ -53,7 +57,7 @@ with tqdm(total=max_K,desc=f"Case N = {N}",position = 0,leave=False,disable=Fals
     while K < max_K:
         # print(f"K = {K}")
         commutatorPolynomials = []
-        commutator = Commutator(der, [*powers1, *powers2], K)
+        commutator = Commutator(der, K)
         # print(f"Matrices size: {commutator.unknown_derivation.polynomials[0].coefficients.shape}")
 
         res, isProportional = commutator.get_commutator()
