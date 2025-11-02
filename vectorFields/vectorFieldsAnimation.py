@@ -227,18 +227,22 @@ def my_provider(frame_idx: int):
     powers1 = [k, n]
     powers2 = [l, m]
 
-    monomail1 = Monomial(2, alpha, powers1)
-    monomail2 = Monomial(2, beta, powers2)
-    polynomial1 = Polynomial(poly_symbols=monomail1.monomial_symbolic, vars=monomail1.vars)
-    polynomial2 = Polynomial(poly_symbols=monomail2.monomial_symbolic, vars=monomail2.vars)
+    x, y = symbols("x"), symbols("y")
+    variables = [x, y]
 
-    der = Derivation([polynomial1, polynomial2], polynomial1.variables_polynom)
+    monomial1 = alpha * x ** k * y ** n
+    monomial2 = beta * x ** l * y ** m
+
+    polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
+    polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
+
+    der = Derivation([polynomial1, polynomial2], variables)
     K = 2
-    commutator = Commutator(der, [*powers1, *powers2], K)
+    commutator = Commutator(der, K)
     res, isProportional = commutator.get_commutator()
 
     t = frame_idx
-    VF1 = VectorField2D(P=monomail1.monomial_symbolic, Q=monomail2.monomial_symbolic)
+    VF1 = VectorField2D(P=monomial1, Q=monomial2)
     # Right: a nonlinear field with time-varying coefficient
 
     VF2 = VectorField2D(P=res.polynomials[0].polynomial_symbolic, Q=res.polynomials[1].polynomial_symbolic)

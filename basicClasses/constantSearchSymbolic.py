@@ -2,32 +2,6 @@
 from sympy import Matrix, solve_linear_system,symbols, diff, simplify, expand, Expr, solve, Poly, N, nsimplify
 import numpy as np
 
-class Monomial:
-    def __init__(self, n,coeff: float,powers:list):
-        self.n = n
-        self.coeff = coeff
-        self.vars = []
-        self.powers = powers
-        if len(powers)!=n:
-            raise AssertionError(f'powers must be of length {n}')
-        self.monomial_symbolic = coeff
-        for i in range(n):
-            var = symbols(f"x_{i}")
-            self.vars.append(var)
-            self.monomial_symbolic *= var ** powers[i]
-    def getCoeff(self):
-        return self.coeff
-    def getPowers(self):
-        return self.powers
-
-    def __str__(self):
-
-        return self.monomial_symbolic
-
-
-
-
-
 class Polynomial:
     def __init__(self, coefficients: np.ndarray = None, n_var: int = None, poly_symbols = None, variables = None):
 
