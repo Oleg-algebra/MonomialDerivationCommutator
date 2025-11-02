@@ -35,6 +35,8 @@ class Polynomial:
         self.variables_polynom = []
         if vars is not None:
             self.variables_polynom = vars
+        else:
+            self.variables_polynom = [symbols(f"x_{i}") for i in range(n_var)]
         if coefficients is not None:
             for i in range(coefficients.shape[0]):
                 for j in range(coefficients.shape[1]):
@@ -42,6 +44,21 @@ class Polynomial:
                     if self.variables_polynom == []:
                         self.variables_polynom = monomial.vars
                     self.polynomial_symbolic += monomial.monomial_symbolic
+        else:
+            row_max = 0
+            column_max = 0
+            poly = Poly(poly_symbols,vars)
+            for term in poly.terms():
+                degree = term[0]
+                if degree[0]> row_max:
+                    row_max = degree[0]
+                if degree[1]> column_max:
+                    column_max = degree[1]
+            self.coefficients = np.zeros((row_max+1,column_max+1))
+            for term in poly.terms():
+                degree = term[0]
+                self.coefficients[degree[0]][degree[1]] = term[1]
+
 
 
 
@@ -66,7 +83,7 @@ class Commutator:
         self.unknown_coeffients = []
         self.K = K
         self.strategy = strategy
-        self.unknown_derivation = self.generateCommutator()
+        self.unknown_derivation = self.generateCommutator2()
         self.searchCommutator = {
             "general" : self.generalSolver,
             "linear" : self.linearSolver
@@ -89,10 +106,15 @@ class Commutator:
         M = max(self.powers[1]*(not flag1),self.powers[3]*(not flag2)) + self.K
         return N,M
 
+    def strategy1(self):
+        return max(self.generalStrategy())
+
+
     def getDegree(self,strategy = "special"):
         strategies = {
             "special" : self.specialStrategy,
-            "general" : self.generalStrategy
+            "general" : self.generalStrategy,
+            "degreeStrategy" : self.strategy1
         }
         return strategies[strategy]()
 
@@ -121,6 +143,33 @@ class Commutator:
         der_unknown = Derivation(polynomials,variables)
 
         return der_unknown
+
+    def generateCommutator2(self) -> Derivation:
+        variables = self.derivation.variables
+        N = self.getDegree(strategy="degreeStrategy")
+        Matrices = []
+        symb = ["a", "b"]
+
+        for k in range(len(variables)):
+            sym = symb[k]
+            matrix = np.zeros((N,N),dtype=object)
+            for i in range(N):
+                # row = []
+                for j in range(N-i):
+                    coef = symbols(f'{sym}{i}_{j}')
+                    # row.append(coef)
+                    matrix[i][j] = coef
+                    self.unknown_coeffients.append(coef)
+                # matrix.append(row)
+            Matrices.append(Matrix(matrix))
+        polynomials = []
+        for m in Matrices:
+            polynomials.append(Polynomial(m, len(variables)))
+
+        der_unknown = Derivation(polynomials, variables)
+
+        return der_unknown
+
 
     def generalSolver(self):
 
