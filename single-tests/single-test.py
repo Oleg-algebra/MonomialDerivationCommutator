@@ -43,13 +43,14 @@ polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
 polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
 
 
-# polynomial1 = 2*x**2+3*x*y -4*y**2
-# polynomial2 = polynomial1 + 3*x
-#
+polynomial1 = 2*x**2+3*x*y -4*y**2
+polynomial2 = polynomial1 + 3*x
+
 # polynomial1 = x
 # polynomial2 = y
-# polynomial1 = Polynomial(poly_symbols=polynomial1, variables=variables)
-# polynomial2 = Polynomial(poly_symbols=polynomial2, variables=variables)
+
+polynomial1 = Polynomial(poly_symbols=polynomial1, variables=variables)
+polynomial2 = Polynomial(poly_symbols=polynomial2, variables=variables)
 
 der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)
 K = 2
