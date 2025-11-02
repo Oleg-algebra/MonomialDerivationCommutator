@@ -264,7 +264,6 @@ class Commutator:
     def get_commutator(self,solver = "general"):
 
         while True:
-            print(self.K)
             coefficients = self.searchCommutator[solver]()
 
             arbitrary_coefficients = []
@@ -278,14 +277,11 @@ class Commutator:
                     new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,coefficients[coeff])
                     poly.polynomial_symbolic = new_symbolic_expr
 
-
-
-            for poly in self.unknown_derivation.polynomials:
-                for coeff in arbitrary_coefficients:
-                    number = np.random.randint(1,10)
-                    number = 1
-                    new_symbolic_expr = poly.polynomial_symbolic.subs(coeff,number)
-                    poly.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
+            for coeff in arbitrary_coefficients:
+                number = np.random.randint(1, 10)
+                for poly in self.unknown_derivation.polynomials:
+                    new_symbolic_expr = poly.polynomial_symbolic.subs(coeff, number)
+                    poly.polynomial_symbolic = nsimplify(new_symbolic_expr, rational=True)
                     # poly.polynomial_symbolic = new_symbolic_expr
 
             # is_proportional = self.is_proportional()
@@ -293,14 +289,12 @@ class Commutator:
             if not self.is_zero_derivation() or self.K > self.max_K - 1:
                 break
             self.K += 1
-            print(self.K)
 
         is_proportional = self.is_proportional2()
         return self.unknown_derivation,is_proportional
 
 
     def is_zero_derivation(self):
-        print("is_zero_derivation")
         for poly in self.unknown_derivation.polynomials:
             if not poly.polynomial_symbolic.equals(0):
                 return False
