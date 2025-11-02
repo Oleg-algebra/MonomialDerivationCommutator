@@ -74,9 +74,10 @@ class Derivation:
 
 class Commutator:
 
-    def __init__(self, derivation: Derivation, powers: list, K=0, degreeStrategy: str = "special",matrixStrategy: str = "degreeStrategy",max_K = 10):
+    def __init__(self, derivation: Derivation, K=0, degreeStrategy: str = "special",matrixStrategy: str = "degreeStrategy",max_K = 10):
         self.derivation = derivation
-        self.powers = powers
+        self.powers = self.powers = [*self.derivation.polynomials[0].coefficients.shape,
+                       *self.derivation.polynomials[1].coefficients.shape]
         self.unknown_coeffients = []
         self.K = K
         self.max_K = max_K
