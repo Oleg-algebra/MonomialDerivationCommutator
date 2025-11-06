@@ -48,13 +48,13 @@ class Derivation:
 
 class ConstantSearchSymbolic:
 
-    def __init__(self, derivation: Derivation,powers: list,K, strategy: str = "special"):
+    def __init__(self, derivation: Derivation,powers: list,K = 1, strategy: str = "special"):
         self.derivation = derivation
         self.powers = powers
         self.unknown_coeffients = []
         self.K = K
         self.strategy = strategy
-        self.unknown_constant = self.generatePolynomial()
+        self.unknown_constant = None
         self.searchCommutator = {
             "general" : self.generalSolver
         }
@@ -84,6 +84,7 @@ class ConstantSearchSymbolic:
         return strategies[strategy]()
 
     def generatePolynomial(self) -> Polynomial:
+        self.unknown_coeffients = []
         variables = self.derivation.variables
         N,M = self.getDegree(strategy=self.strategy)
 
@@ -120,31 +121,39 @@ class ConstantSearchSymbolic:
 
     def get_constant(self, solver ="general"):
 
-        coefficients = self.searchCommutator[solver]()
 
-        arbitrary_coefficients = []
-        for coeff in self.unknown_coeffients:
-            if coeff not in coefficients.keys():
-                arbitrary_coefficients.append(coeff)
+        while True:
+            self.unknown_constant = self.generatePolynomial()
+            coefficients = self.searchCommutator[solver]()
+
+            if coefficients == []:
+                print(self.K)
+                self.K += 1
+                continue
+
+            arbitrary_coefficients = []
+            for coeff in self.unknown_coeffients:
+                if coeff not in coefficients.keys():
+                    arbitrary_coefficients.append(coeff)
 
 
 
-        for coeff in coefficients.keys():
-            new_symbolic_expr = self.unknown_constant.polynomial_symbolic.subs(coeff,coefficients[coeff])
-            self.unknown_constant.polynomial_symbolic = new_symbolic_expr
+            for coeff in coefficients.keys():
+                new_symbolic_expr = self.unknown_constant.polynomial_symbolic.subs(coeff,coefficients[coeff])
+                self.unknown_constant.polynomial_symbolic = new_symbolic_expr
 
 
 
-        for coeff in arbitrary_coefficients:
-            number = np.random.randint(1,10)
-            # number = 1
-            new_symbolic_expr = self.unknown_constant.polynomial_symbolic.subs(coeff,number)
-            self.unknown_constant.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
-            # poly.polynomial_symbolic = new_symbolic_expr
+            for coeff in arbitrary_coefficients:
+                number = np.random.randint(1,10)
+                # number = 1
+                new_symbolic_expr = self.unknown_constant.polynomial_symbolic.subs(coeff,number)
+                self.unknown_constant.polynomial_symbolic = nsimplify(new_symbolic_expr,rational=True)
+                # poly.polynomial_symbolic = new_symbolic_expr
 
-        # is_proportional = self.is_proportional()
-        is_constant = self.is_constant()
-        return self.unknown_constant.polynomial_symbolic,is_constant
+            # is_proportional = self.is_proportional()
+            is_constant = self.is_constant()
+            return self.unknown_constant.polynomial_symbolic,is_constant
 
 
 

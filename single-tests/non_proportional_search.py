@@ -17,7 +17,7 @@ args = parser.parse_args()
 # N = int(args.N)
 # max_K = int(args.K)
 N = 111
-max_K = 10
+max_K = 15
 k = 0
 n= N
 l = N
@@ -37,11 +37,27 @@ powers2 = [l, m]
 x,y = symbols("x"),symbols("y")
 variables = [x,y]
 
+alpha = 0
+beta = 1
+m = 1
+l = 2
+
 monomial1 = alpha*x**k*y**n
 monomial2 = beta*x**l*y**m
 
 polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
 polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
+
+polynomial1 = -x
+polynomial2 = y
+
+n = 1
+monom = (x*y)**n
+polynomial1 *= monom
+polynomial2 *= monom
+
+polynomial1 = Polynomial(poly_symbols=polynomial1, variables=variables)
+polynomial2 = Polynomial(poly_symbols=polynomial2, variables=variables)
 
 
 der = Derivation([polynomial1,polynomial2], polynomial1.variables_polynom)

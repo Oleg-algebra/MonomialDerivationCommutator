@@ -37,8 +37,8 @@ variables = [x,y]
 monomial1 = alpha*x**k*y**n
 monomial2 = beta*x**l*y**m
 
-monomial1 = -x
-monomial2 = y
+monomial1 = -x*0
+monomial2 = x**3*y
 
 polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
 polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)

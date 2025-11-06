@@ -303,6 +303,10 @@ class Commutator:
         return True
 
     def is_proportional2(self):
+        #TODO: Needs to be rewritten, because of the case where both
+        # coordinate functions are zero (for example functions
+        # are zeros near d/dx in both derivations)
+
         poly_unknown = self.unknown_derivation.polynomials
         poly_given = self.derivation.polynomials
 

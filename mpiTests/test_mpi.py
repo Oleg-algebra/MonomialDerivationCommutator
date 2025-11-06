@@ -115,11 +115,11 @@ with tqdm(total=tests_number,desc=f"Rank: {rank}",position=rank,leave=False,disa
             # m = np.random.randint(1,15)
             # alpha = beta = 1
 
-            if alpha*beta == 0:
-                continue
-
-            if m < 2 :
-                continue
+            # if alpha*beta == 0:
+            #     continue
+            #
+            # if m < 2 :
+            #     continue
 
             # if (k + n) != (l + m):
             #     continue

@@ -43,11 +43,25 @@ polynomial1 = Polynomial(poly_symbols=monomial1, variables=variables)
 polynomial2 = Polynomial(poly_symbols=monomial2, variables=variables)
 
 
-polynomial1 = 2*x**2+3*x*y -4*y**2
-polynomial2 = polynomial1 + 3*x
+# polynomial1 = 2*x**2+3*x*y -4*y**2
+# polynomial2 = polynomial1 + 3*x
 
-# polynomial1 = x
-# polynomial2 = y
+polynomial1 = 2*x*y
+polynomial2 = 2*y**2
+
+# polynomial1 = -2*x*y
+# polynomial2 = y**2
+
+polynomial1 = 0*x
+polynomial2 = x**2*y**1
+
+# polynomial1 = -x
+# polynomial2 = y*0
+#
+# n = 1
+# monom = (x*y)**n
+# polynomial1 *= monom
+# polynomial2 *= monom
 
 polynomial1 = Polynomial(poly_symbols=polynomial1, variables=variables)
 polynomial2 = Polynomial(poly_symbols=polynomial2, variables=variables)
